@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>HMS - Django</title>
+
+    <style type="text/css">
+      body {
+        color: #aa082e;
+        background-color: #b6bde7;
+        font-family: "Roboto", sans-serif;
+      }
+
+      a:link {
+        text-decoration: none;
+      }
+
+      .note {
+        text-align: center;
+        height: 80px;
+        background: -webkit-linear-gradient(left, #0072ff, #8811c5);
+        color: #fff;
+        font-weight: bold;
+        line-height: 80px;
+      }
+
+      .form-content {
+        padding: 5%;
+        border: 1px solid #ced4da;
+        margin-bottom: 2%;
+      }
+
+      .form-control {
+        border-radius: 1.5rem;
+      }
+
+      .btnSubmit {
+        border: none;
+        border-radius: 1.5rem;
+        padding: 1%;
+        width: 20%;
+        cursor: pointer;
+        background: #0062cc;
+        color: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    {% include "navbar.html" %}
+    <br />
+    <br />
+    <br />
+
+    <!--- login page for admin by admin(sumit)  ---------->
+    <form method="post" action="{% url 'AdminLogin' %}">
+      {% csrf_token %}
+      <div class="container register-form">
+        <div class="form">
+          <div class="note">
+            <p>Admin Login Page</p>
+          </div>
+          <div class="form-content">
+            <div class="column" style="width: 80vw">
+              <div class="text-center">
+                <p>
+                  Enter Username:
+                  <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter Username"
+                  />
+                </p>
+                <p>
+                  Enter Password:
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                  />
+                </p>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btnSubmit" style="margin: 10px">
+                  Login
+                </button>
+              </div>
+            </div>
+            <br />
+            <br />
+            <div class="text-center">
+              Do not have account? <a href="adminsignup">Signup here</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <br /><br />
+  </body>
+</html>

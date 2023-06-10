@@ -1,0 +1,9 @@
+Username: ompatel
+Password: 123456
+Email: ompatel22072002@gmail.com
+
+adminlogin below <html> tag  {% load widget_tweaks %}
+
+{% render_field form.username class="form-control" placeholder="Username" %}
+
+{% render_field form.password class="form-control" placeholder="Password" %}
