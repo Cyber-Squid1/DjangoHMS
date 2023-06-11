@@ -1,37 +1,57 @@
-<!DOCTYPE html>
 {% load static %}
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
-
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <title>HMS - Django</title>
-
-
-</head>
-
-<body>
-
-  {% include "hospital/navbar.html" %}
-  <br><br>
-
-  <center>
-    <h3 class='alert alert-success'>Send Us Your Valuable Feedback !</h3>
-
-    <form method="POST">
-      <!-- Very Important csrf Token -->
-      {% csrf_token %}
-      <div class="form-group">
-        <p>
-        <h3>{{ form.as_p }}</h3>
-        </p>
-        <br>
-        <input type="submit" value="Send Message" class='btn btn-primary btn-lg'>
-      </div>
-    </form>
-  </center>
-  {% include "hospital/footer.html" %}
-</body>
-
-
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>HMS - Django</title>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <br /><br />
+    <center>
+      <h3 class="alert alert-success">Send Us Your Valuable Feedback !</h3>
+      <form method="POST" action="{% url 'ContactUs' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="text-center">
+            <p class="text-center">
+              Enter Name:
+              <input 
+                type="text" 
+                name="name" 
+                id="" 
+                value="{{userData.userName}}" 
+              />
+            </p>
+            <p class="text-center">
+              Enter Email:
+              <input
+                type="email"
+                name="email"
+                id=""
+                value="{{userData.patientEmail}}"
+              />
+            </p>
+            <p>
+              Enter Phone number:
+              <input type="text" name="mob" id="" value="{{userData.phone}}" />
+            </p>
+          </div>
+          <div style="width: 80vw">
+            <p>Enter Feedback:</p>
+            <textarea name="feedbackmsg" id="" cols="30" rows="10"></textarea>
+          </div>
+          <br />
+          <input
+            type="submit"
+            value="Send Message"
+            class="btn btn-primary btn-lg"
+          />
+        </div>
+      </form>
+    </center>
+  </body>
 </html>
