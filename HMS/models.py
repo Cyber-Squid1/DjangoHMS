@@ -2,6 +2,12 @@ from django.db import models
 
 # Create your models here.
 
+class Specialization(models.Model):
+    specialization=models.CharField(max_length=200,unique=True,null=False)
+    
+    def __str__(self):
+        return self.specialization
+    
 class Doctor(models.Model):
     doctorName=models.CharField(max_length=200)
     doctorEmail=models.EmailField()
@@ -9,7 +15,8 @@ class Doctor(models.Model):
     password=models.CharField(max_length=200)
     address=models.CharField(max_length=300)
     doctorProfileImg=models.ImageField(upload_to='doctorProfileImg')
-    specialization=models.CharField(max_length=200)
+    specialization=models.ForeignKey(Specialization,on_delete=models.CASCADE)
+    availableOn=models.CharField(max_length=10,default="")
     
     def __str__(self):
         return self.doctorName

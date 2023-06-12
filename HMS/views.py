@@ -32,7 +32,44 @@ def PatientLogin(request):
         return render(request,'patientlogin.html')
 
 def PatientDashboard(request):
-    return render(request,'patient_dashboard.html')
+    if 'email' in request.session:
+        patientData=Patient.objects.get(patientEmail=request.session['email'])
+        if patientData.currentlyAssignedDoctorId:
+            doctorData=Doctor.objects.get(pk=patientData.currentlyAssignedDoctorId)
+            return render(request,'patient_dashboard.html',{"hasDoctorAssigned":1,"doctorData":doctorData})
+        else:
+            return render(request,'patient_dashboard.html',{"hasDoctorAssigned":0})
+    # return render(request,'patient_dashboard.html')
+
+def PatientBookAppointment(request):
+    if 'email' in request.session:
+        doctorData=Doctor.objects.all()
+        return render(request,'patient_book_appointment.html',{"doctorData":doctorData})
+    return redirect ('PatientLogin')
+
+def ConfirmAppointment(request):
+    if 'email' in request.session:
+        docpse=request.POST['DoctorSpecialization']
+        docname=request.POST['DoctorSpecialization']
+        return render(request,'patient_appointment.html')
+
+def ShowDoctors(request,doctorSpecialization):
+    if 'email' in request.session:
+        doctorData=Doctor.objects.all()
+        doctorDataSpecialized=Doctor.objects.filter(specialization=doctorSpecialization)
+        return render(request,'patient_book_appointment.html',{"doctorData":doctorData,"doctorData1":doctorDataSpecialized,"specialistSelected":doctorSpecialization})
+    return redirect ('PatientLogin')
+
+def SelectDoctor(request,doctorSpecialization,doctorName):
+    if 'email' in request.session:
+        doctorData=Doctor.objects.all()
+        doctorDataSpecialized=Doctor.objects.filter(specialization=doctorSpecialization)
+        getDoctorName=Doctor.objects.get(specialization=doctorSpecialization,doctorName=doctorName)
+        return render(request,'patient_book_appointment.html',{"doctorData":doctorData,"doctorData1":doctorDataSpecialized,"specialistSelected":doctorSpecialization,"doctorSelected":getDoctorName})
+
+
+def PatientViewAppointment(request):
+    return render(request,'patient_appointment.html')
 
 def PatientLogout(request):
     if 'email' in request.session.keys():

@@ -7,3 +7,12 @@ adminlogin below <html> tag  {% load widget_tweaks %}
 {% render_field form.username class="form-control" placeholder="Username" %}
 
 {% render_field form.password class="form-control" placeholder="Password" %}
+
+patient_book_appointment.html
+<!-- <select name="DoctorSpecialization" id="">
+{% for i in doctorData %}
+<option value="{{i.specialization}}">
+  <a href="{% url 'ShowDoctors' i.specialization %}">{{i.specialization}}</a>
+</option>
+{% endfor %}
+</select> -->
