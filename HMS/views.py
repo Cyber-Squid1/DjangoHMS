@@ -183,9 +183,3 @@ def ContactUs(request):
             data=Feedback.objects.create(name=name1,email=email1,phonenumber=phone,message=message1)
             return render(request,'contactus.html',{"isLoggedIn":0,"message":"Your Query has been recorded"})
         return render(request,'contactus.html',{"isLoggedIn":0})
-
-
-def Trial(request):
-    Special=Specialization.objects.all()
-    print(Special)
-    return render(request,'index.html')
