@@ -7,7 +7,7 @@ class Specialization(models.Model):
     
     def __str__(self):
         return self.specialization
-    
+
 class Doctor(models.Model):
     doctorName=models.CharField(max_length=200)
     doctorEmail=models.EmailField()
@@ -17,7 +17,7 @@ class Doctor(models.Model):
     doctorProfileImg=models.ImageField(upload_to='doctorProfileImg')
     specialization=models.ForeignKey(Specialization,on_delete=models.CASCADE)
     availableOn=models.CharField(max_length=10,default="")
-    
+
     def __str__(self):
         return self.doctorName
 
@@ -36,8 +36,8 @@ class Patient(models.Model):
         return self.patientName
 
 class Appointment(models.Model):
-    doctorId=models.ForeignKey(Doctor,on_delete=models.CASCADE)
-    patientId=models.ForeignKey(Patient,on_delete=models.CASCADE)
+    patientId=models.CharField(max_length=10)
+    doctorId=models.CharField(max_length=10)
     appointmentDate=models.DateField(auto_now=True)
     description=models.TextField(max_length=2000)
     medicinePrescribed=models.CharField(max_length=1000)
@@ -48,9 +48,9 @@ class Appointment(models.Model):
         return self.doctorId
 
 class AdmittedPatientDetails(models.Model):
-    appointmentDetailsId=models.ForeignKey(Appointment,on_delete=models.CASCADE)
-    patientId=models.ForeignKey(Patient,on_delete=models.CASCADE)
-    doctorIdId=models.ForeignKey(Doctor,on_delete=models.CASCADE)
+    appointmentDetailsId=models.CharField(max_length=10)
+    patientId=models.CharField(max_length=10)
+    doctorId=models.CharField(max_length=10)
     admittedOn=models.DateField()
     dischargeDate=models.DateField()
     roomCharges=models.IntegerField()

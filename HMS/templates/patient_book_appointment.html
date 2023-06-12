@@ -94,10 +94,8 @@
   var a = "{{message}}";
   alert(a);
 </script>
-
 {% endif %}
-<!------ add appointment page by patient(sumit)  ---------->
-<form method="post" action="ConfirmAppointment">
+<form method="post" action="{% url 'ConfirmAppointment' %}">
   {% csrf_token %}
   <div class="container register-form">
     <div class="form">
@@ -111,16 +109,17 @@
               Select Doctor Type:
               <form action="" method="post">
                 <div class="dropdown">
-                  {% if specialistSelected %}
-                  <label for="" class="dropbtn">{{specialistSelected}}</label>
+                  {% if SpecialistSelected %}
+                  <label for="" class="dropbtn">{{SpecialistSelected}}</label>
                   {% else %}
                   <label for="" class="dropbtn">Select Specialist</label>
                   {% endif %}
-                  <!-- <input type="label" name="specialist" id="" class="dropbtn"> -->
-                  <!-- <button class="dropbtn">Select Specialist</button> -->
+
                   <div class="dropdown-content">
-                    {% for i in doctorData %}
-                    <a href="{% url 'ShowDoctors' i.specialization%}" name="specialist">{{i.specialization}}</a>
+                    {% for i in SpecializationList %}
+                    <a href="{% url 'ShowDoctors' i.pk %}"
+                      >{{i.specialization}}</a
+                    >
                     {% endfor %}
                   </div>
                 </div>
@@ -130,19 +129,20 @@
               Select Doctor:
               <form method="post">
                 <div class="dropdown">
-                  {% if doctorSelected %}
-                  <label for="" class="dropbtn">{{doctorSelected}}</label>
+                  {% if SpecialistDoctorName %}
+                  <label for="" class="dropbtn">{{SpecialistDoctorName}}</label>
                   {% else %}
                   <label for="" class="dropbtn">Select Doctor</label>
                   {% endif %}
                   <div class="dropdown-content">
-                    {% for j in doctorData1 %}
-                    <a href="{% url 'SelectDoctor' j.specialization j.doctorName %}">{{j.doctorName}}</a>
+                    {% for j in SpecializedDoctorList %}
+                    <a href="{% url 'SelectDoctor' j.specialization_id j.pk %}"
+                      >{{j.doctorName}}</a
+                    >
                     {% endfor %}
                   </div>
                 </div>
               </form>
-              <!-- <input type="text" name="" id="" placeholder="Firstname" /> -->
             </div>
           </div>
         </div>

@@ -8,7 +8,6 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <title>HMS - Django</title>
-
     <style type="text/css">
       body {
         color: #aa082e;
@@ -50,14 +49,11 @@
       }
     </style>
   </head>
-
   <body>
     {% include "navbar.html" %}
     <br />
     <br />
     <br />
-
-    <!--- login page for admin by admin(sumit)  ---------->
     <form method="post" action="{% url 'DoctorLogin' %}">
       {% csrf_token %}
       <div class="container register-form">
@@ -69,11 +65,11 @@
             <div class="column" style="width: 80vw">
               <div class="text-center">
                 <p>
-                  Enter Username:
+                  Enter Email:
                   <input
                     type="text"
-                    name="username"
-                    placeholder="Enter Username"
+                    name="email"
+                    placeholder="Enter Email"
                   />
                 </p>
                 <p>
@@ -94,13 +90,12 @@
             <br />
             <br />
             <div class="text-center">
-              Do not have account? <a href="adminsignup">Signup here</a>
+              Do not have account? <a href="{% url 'DoctorSignup' %}">Signup here</a>
             </div>
           </div>
         </div>
       </div>
     </form>
-
     <br /><br />
   </body>
 </html>
