@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>Patient Name: {{patientData.patientName}}</p>
+    <p>Mobile Number: {{patientData.phone}}</p>
+    <p>Patient Name: {{patientData.patientName}}</p>
+    <form action="{% url 'AppointmentComplete' patientData.pk %}" method="POST">
+      {% csrf_token %}
+      <div class="current" style="display: flex;align-items:center;">
+        <p>Add Symptoms:</p><textarea name="sym" id="" cols="30" rows="10" style="margin: 10px;"></textarea>
+        <p>Medicines Prescribed: </p><textarea name="med" id="" cols="30" rows="10" style="margin: 10px;"></textarea>
+        <p>Description: </p><textarea name="desc" id="" cols="30" rows="10" style="margin: 10px;"></textarea>
+        <input type="text" name="currappPK" id="" hidden value="{{currentAppointmentId}}">
+      </div>
+      <button type="submit">Update Patient Record</button>
+    </form>
+    <br>
+    <div class="history center-block" style="text-align: center">
+      <table border="2px" style="width: 90%; margin: 10px">
+        <caption>
+          Patient Record History
+        </caption>
+        <thead>
+          <tr>
+            <th>Appointment Date</th>
+            <th>Appointment Time</th>
+            <th>Symptoms</th>
+            <th>Medicines Prescribed</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        {% for i in patientPreviousRecord %}
+        <tr>
+          <td>{{i.appointmentDate}}</td>
+          <td>{{i.appointmentTime}}</td>
+          <td>{{i.symptoms}}</td>
+          <td>{{i.medicinePrescribed}}</td>
+          <td>{{i.description}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>

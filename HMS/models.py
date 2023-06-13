@@ -29,7 +29,6 @@ class Patient(models.Model):
     address=models.CharField(max_length=300)
     patientProfileImg=models.ImageField(upload_to='patientProfileImg',default="")
     currentlyAssignedDoctorId=models.CharField(max_length=8,default="")
-    patientMedicalReport=models.ImageField(upload_to='patientMedicalReports/<int:Patient.pk>',default="")
     
     def __str__(self):
         return self.patientName
@@ -40,20 +39,20 @@ APPOINTMENT_STATUS=(
 )
 
 APPOINTMENT_TIME_CHOICES=(
-    ("10:00:00","10:00:00"),
-    ("10:30:00","10:30:00"),
-    ("11:00:00","11:00:00"),
-    ("11:30:00","11:30:00"),
-    ("12:00:00","12:00:00"),
-    ("13:30:00","13:30:00"),
-    ("15:00:00","15:00:00"),
-    ("15:30:00","15:30:00"),
-    ("16:00:00","16:00:00"),
-    ("16:30:00","16:30:00"),
-    ("17:00:00","17:00:00"),
-    ("17:30:00","17:30:00"),
-    ("18:00:00","18:00:00"),
-    ("18:30:00","18:30:00"),
+    ("10:00","10:00"),
+    ("10:30","10:30"),
+    ("11:00","11:00"),
+    ("11:30","11:30"),
+    ("12:00","12:00"),
+    ("13:30","13:30"),
+    ("15:00","15:00"),
+    ("15:30","15:30"),
+    ("16:00","16:00"),
+    ("16:30","16:30"),
+    ("17:00","17:00"),
+    ("17:30","17:30"),
+    ("18:00","18:00"),
+    ("18:30","18:30"),
 )
 
 class Appointment(models.Model):

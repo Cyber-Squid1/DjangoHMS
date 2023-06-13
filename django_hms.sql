@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2023 at 02:19 PM
+-- Generation Time: Jun 13, 2023 at 08:59 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -285,7 +285,8 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (47, 'HMS', '0029_alter_appointment_appointmenttime', '2023-06-13 12:03:55.289827'),
 (48, 'HMS', '0030_alter_appointment_appointmenttime', '2023-06-13 12:05:57.520619'),
 (49, 'HMS', '0031_alter_appointment_appointmenttime', '2023-06-13 12:07:05.111639'),
-(50, 'HMS', '0032_alter_appointment_appointmenttime', '2023-06-13 12:08:56.163501');
+(50, 'HMS', '0032_alter_appointment_appointmenttime', '2023-06-13 12:08:56.163501'),
+(51, 'HMS', '0033_remove_patient_patientmedicalreport_and_more', '2023-06-13 18:56:47.344204');
 
 -- --------------------------------------------------------
 
@@ -352,8 +353,9 @@ CREATE TABLE `hms_appointment` (
 --
 
 INSERT INTO `hms_appointment` (`id`, `patientId`, `doctorId`, `appointmentDate`, `description`, `medicinePrescribed`, `appointmentCost`, `wasAdmitted`, `symptoms`, `appointmentTime`, `status`) VALUES
-(12, '1', '2', '2023-06-13', 'asdasd', 'asd', 800, 0, 'asd', '10:00:00', 'PENDING'),
-(13, '1', '2', '2023-06-13', '', '', 800, 0, '', '12:00:00', 'PENDING');
+(1, '1', '2', '2023-06-13', 'asdasd', 'asd', 800, 0, 'asd', '10:00', 'COMPLETED'),
+(2, '3', '2', '2023-06-14', '', '', 800, 0, '', '13:30', 'PENDING'),
+(3, '1', '2', '2023-06-14', 'dasdasd', 'sdasdass', 800, 0, 'asda', '14:00', 'COMPLETED');
 
 -- --------------------------------------------------------
 
@@ -410,16 +412,20 @@ CREATE TABLE `hms_patient` (
   `password` varchar(200) NOT NULL,
   `address` varchar(300) NOT NULL,
   `patientProfileImg` varchar(100) NOT NULL,
-  `currentlyAssignedDoctorId` varchar(8) NOT NULL,
-  `patientMedicalReport` varchar(100) NOT NULL
+  `currentlyAssignedDoctorId` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `hms_patient`
 --
 
-INSERT INTO `hms_patient` (`id`, `patientName`, `patientEmail`, `phone`, `password`, `address`, `patientProfileImg`, `currentlyAssignedDoctorId`, `patientMedicalReport`) VALUES
-(1, 'Om Patel', 'ompatel22072002@gmail.com', 7016104220, '123456', 'Jamnagar', '', '2', '');
+INSERT INTO `hms_patient` (`id`, `patientName`, `patientEmail`, `phone`, `password`, `address`, `patientProfileImg`, `currentlyAssignedDoctorId`) VALUES
+(1, 'Om Patel', 'ompatel22072002@gmail.com', 7016104220, '123456', 'Jamnagar', '', ''),
+(2, 'Jemin Butani', 'jeminbutani@gmail.com', 7016105890, '789456', 'Rajkot', '', ''),
+(3, 'Kunj Jajal', 'kunjjajal@gmail.com', 7024287330, '159753', 'Mumbai', '', ''),
+(4, 'ab c', 'abc@gmail.com', 7079654220, 'abc1', 'Ahmedabad', '', ''),
+(5, 'pq r', 'pqr@gmail.com', 9998743208, 'pqr123', 'Gandhinagar', '', ''),
+(6, 'xy z', 'xyz@gmail.com', 9664781034, 'xyzabc', 'Surat', '', '');
 
 -- --------------------------------------------------------
 
@@ -613,7 +619,7 @@ ALTER TABLE `django_content_type`
 -- AUTO_INCREMENT for table `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `hms_admittedpatientdetails`
@@ -643,7 +649,7 @@ ALTER TABLE `hms_feedback`
 -- AUTO_INCREMENT for table `hms_patient`
 --
 ALTER TABLE `hms_patient`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `hms_specialization`

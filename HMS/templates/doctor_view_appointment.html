@@ -1,4 +1,4 @@
-{% extends 'hospital/doctor_base.html' %}
+{% extends 'doctor_base.html' %}
 {% block content %}
 {%load static%}
 
@@ -21,31 +21,27 @@
     }
   </style>
 </head>
-
+<!-- <p>Date: {{TodayDate}}</p> -->
 <div class="container">
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h6 class="panel-title">Your Appointments</h6>
     </div>
-    <table class="table table-hover" id="dev-table">
+    <table class="table table-hover" id="dev-table" >
       <thead>
         <tr>
           <th>Patient Name</th>
-          <th>Picture</th>
-          <th>Description</th>
           <th>Contact</th>
-          <th>Address</th>
-          <th>Appointment Date</th>
+          <th>Appointment Time</th>
+          <th>   </th>
         </tr>
       </thead>
-      {% for a,p in appointments %}
+      {% for i in patientList %}
       <tr>
-        <td>{{a.patientName}}</td>
-        <td> <img src="{% static p.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
-        <td>{{a.description}}</td>
-        <td>{{p.mobile}}</td>
-        <td>{{p.address}}</td>
-        <td>{{a.appointmentDate}}</td>
+        <td>{{i.name}}</td>
+        <td>{{i.phone}}</td>
+        <td>{{i.time}}</td>
+        <td><a href="{% url 'ViewSinglePatientRecord' i.patientId %}">Open Records</a></td>
       </tr>
       {% endfor %}
     </table>
