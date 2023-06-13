@@ -20,5 +20,4 @@ urlpatterns = [
     path('confirmAppointment/',ConfirmAppointment,name='ConfirmAppointment'),
     path('viewAppointment/',PatientViewAppointment,name='PatientViewAppointment'),
     path('contactUs/',ContactUs,name='ContactUs'),
-    path('trial/',Trial)
 ]

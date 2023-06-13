@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 # Create your models here.
 
 class Specialization(models.Model):
@@ -28,21 +28,45 @@ class Patient(models.Model):
     password=models.CharField(max_length=200)
     address=models.CharField(max_length=300)
     patientProfileImg=models.ImageField(upload_to='patientProfileImg',default="")
-    symptoms=models.CharField(max_length=1000,default="")
     currentlyAssignedDoctorId=models.CharField(max_length=8,default="")
     patientMedicalReport=models.ImageField(upload_to='patientMedicalReports/<int:Patient.pk>',default="")
     
     def __str__(self):
         return self.patientName
 
+APPOINTMENT_STATUS=(
+    ("PENDING","PENDING"),
+    ("COMPLETED","COMPLETED")
+)
+
+APPOINTMENT_TIME_CHOICES=(
+    ("10:00","10:00"),
+    ("10:30","10:30"),
+    ("11:00","11:00"),
+    ("11:30","11:30"),
+    ("12:00","12:00"),
+    ("13:30","13:30"),
+    ("15:00","15:00"),
+    ("15:30","15:30"),
+    ("16:00","16:00"),
+    ("16:30","16:30"),
+    ("17:00","17:00"),
+    ("17:30","17:30"),
+    ("18:00","18:00"),
+    ("18:30","18:30"),
+)
+
 class Appointment(models.Model):
     patientId=models.CharField(max_length=10)
     doctorId=models.CharField(max_length=10)
     appointmentDate=models.DateField(auto_now=True)
-    description=models.TextField(max_length=2000)
-    medicinePrescribed=models.CharField(max_length=1000)
+    appointmentTime=models.TimeField(default=timezone.now(),choices=APPOINTMENT_TIME_CHOICES)
+    symptoms=models.CharField(max_length=1000,default="")
+    medicinePrescribed=models.TextField(max_length=2000)
     appointmentCost=models.IntegerField()
     wasAdmitted=models.BooleanField(default=False)
+    description=models.TextField(max_length=2000)
+    status=models.CharField(max_length=10,choices=APPOINTMENT_STATUS,default="PENDING")
     
     def __str__(self):
         return self.doctorId

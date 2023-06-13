@@ -81,7 +81,7 @@ def PatientDashboard(request):
         patientData=Patient.objects.get(patientEmail=request.session['patientEmail'])
         if patientData.currentlyAssignedDoctorId:
             doctorData=Doctor.objects.get(pk=patientData.currentlyAssignedDoctorId)
-            return render(request,'patient_dashboard.html',{"hasDoctorAssigned":1,"doctorData":doctorData})
+            return render(request,'patient_dashboard.html',{"hasDoctorAssigned":1,"doctorData":doctorData,"patientName":patientData.patientName})
         else:
             return render(request,'patient_dashboard.html',{"hasDoctorAssigned":0})
     # return render(request,'patient_dashboard.html')
@@ -94,14 +94,20 @@ def PatientBookAppointment(request):
 
 def ConfirmAppointment(request):
     if 'patientEmail' in request.session:
-        patientData=Patient.objects.get(patientEmail=request.session['patientEmail'])
-        pid=patientData.pk
-        tempAppointment=Appointment(patientId=pid,doctorId=request.session['SpecialistDoctorId'],description="",medicinePrescribed="",appointmentCost=800,wasAdmitted=False)
-        tempAppointment.save()
-        Patient.objects.filter(patientEmail=request.session['patientEmail']).update(currentlyAssignedDoctorId=request.session['SpecialistDoctorId'])
-        del request.session['SpecialistId']
-        del request.session['SpecialistDoctorId']
-        return render(request,'patient_appointment.html')
+        SpecializationList = Specialization.objects.all()
+        if 'SpecialistId' and 'SpecialistDoctorId' in request.session:
+            patientData=Patient.objects.get(patientEmail=request.session['patientEmail'])
+            pid=patientData.pk
+            tempAppointment=Appointment(patientId=pid,doctorId=request.session['SpecialistDoctorId'],description="",medicinePrescribed="",appointmentCost=800,wasAdmitted=False)
+            tempAppointment.save()
+            Patient.objects.filter(patientEmail=request.session['patientEmail']).update(currentlyAssignedDoctorId=request.session['SpecialistDoctorId'])
+            del request.session['SpecialistId']
+            del request.session['SpecialistDoctorId']
+            return render(request,'patient_appointment.html',{"message":"Appointment booked successfully"})
+        else:
+            return render(request,'patient_book_appointment.html',{"message":"Please select all the doctor and timing details.","SpecializationList":SpecializationList})
+    else:
+        return redirect('PatientLogin')
 
 def ShowDoctors(request,doctorSpecialization):
     if 'patientEmail' in request.session:

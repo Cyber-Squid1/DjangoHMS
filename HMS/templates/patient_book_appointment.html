@@ -15,12 +15,21 @@
       line-height: 80px;
     }
 
-    .form-content {
+    .main-form{
       padding: 5%;
       border: 1px solid #ced4da;
       margin-bottom: 2%;
+      display: flex;
     }
-
+    .form-content1 {
+      /* padding: 5%;
+      border: 1px solid #ced4da;
+      margin-bottom: 2%; */
+      width: 50%;
+    }
+    .form-content2{
+      width: 50%;
+    }
     .form-control {
       border-radius: 1.5rem;
     }
@@ -91,8 +100,7 @@
 <br /><br />
 {% if message %}
 <script>
-  var a = "{{message}}";
-  alert(a);
+  alert("{{message}}");
 </script>
 {% endif %}
 <form method="post" action="{% url 'ConfirmAppointment' %}">
@@ -102,51 +110,57 @@
       <div class="note">
         <p>Book Appointment Details</p>
       </div>
-      <div class="form-content">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              Select Doctor Type:
-              <form action="" method="post">
-                <div class="dropdown">
-                  {% if SpecialistSelected %}
-                  <label for="" class="dropbtn">{{SpecialistSelected}}</label>
-                  {% else %}
-                  <label for="" class="dropbtn">Select Specialist</label>
-                  {% endif %}
+      <div class="main-form">
+        <div class="form-content1">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                Select Doctor Type:
+                <form action="" method="post">
+                  <div class="dropdown">
+                    {% if SpecialistSelected %}
+                    <label for="" class="dropbtn">{{SpecialistSelected}}</label>
+                    {% else %}
+                    <label for="" class="dropbtn">Select Specialist</label>
+                    {% endif %}
 
-                  <div class="dropdown-content">
-                    {% for i in SpecializationList %}
-                    <a href="{% url 'ShowDoctors' i.pk %}"
-                      >{{i.specialization}}</a
-                    >
-                    {% endfor %}
+                    <div class="dropdown-content">
+                      {% for i in SpecializationList %}
+                      <a href="{% url 'ShowDoctors' i.pk %}"
+                        >{{i.specialization}}</a
+                      >
+                      {% endfor %}
+                    </div>
                   </div>
-                </div>
-              </form>
-            </div>
-            <div class="form-group">
-              Select Doctor:
-              <form method="post">
-                <div class="dropdown">
-                  {% if SpecialistDoctorName %}
-                  <label for="" class="dropbtn">{{SpecialistDoctorName}}</label>
-                  {% else %}
-                  <label for="" class="dropbtn">Select Doctor</label>
-                  {% endif %}
-                  <div class="dropdown-content">
-                    {% for j in SpecializedDoctorList %}
-                    <a href="{% url 'SelectDoctor' j.specialization_id j.pk %}"
-                      >{{j.doctorName}}</a
-                    >
-                    {% endfor %}
+                </form>
+              </div>
+              <div class="form-group">
+                Select Doctor:
+                <form method="post">
+                  <div class="dropdown">
+                    {% if SpecialistDoctorName %}
+                    <label for="" class="dropbtn">{{SpecialistDoctorName}}</label>
+                    {% else %}
+                    <label for="" class="dropbtn">Select Doctor</label>
+                    {% endif %}
+                    <div class="dropdown-content">
+                      {% for j in SpecializedDoctorList %}
+                      <a
+                        href="{% url 'SelectDoctor' j.specialization_id j.pk %}"
+                        >{{j.doctorName}}</a
+                      >
+                      {% endfor %}
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
+          <button type="submit" class="btnSubmit">Book</button>
         </div>
-        <button type="submit" class="btnSubmit">Book</button>
+        <div class="form-content2">
+          Select Appointment Time: <label for=""></label>
+        </div>
       </div>
     </div>
   </div>
