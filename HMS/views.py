@@ -1,7 +1,7 @@
 from HMS.models import *
 from django.shortcuts import render,redirect
 from django.http import HttpResponseBadRequest
-import datetime
+from datetime import datetime
 # Create your views here.
 
 def Home(request):
@@ -84,21 +84,16 @@ def PatientDashboard(request):
             return render(request,'patient_dashboard.html',{"hasDoctorAssigned":1,"doctorData":doctorData,"patientName":patientData.patientName})
         else:
             return render(request,'patient_dashboard.html',{"hasDoctorAssigned":0})
-    # return render(request,'patient_dashboard.html')
-
-def PatientBookAppointment(request):
-    if 'patientEmail' in request.session:
-        SpecializationList = Specialization.objects.all()
-        return render(request,'patient_book_appointment.html',{"SpecializationList":SpecializationList})
-    return redirect ('PatientLogin')
+    else:
+        return redirect('PatientLogin')
 
 def ConfirmAppointment(request):
     if 'patientEmail' in request.session:
         SpecializationList = Specialization.objects.all()
-        if 'SpecialistId' and 'SpecialistDoctorId' in request.session:
+        if 'SpecialistId' and 'SpecialistDoctorId' and 'AppointmentTime' in request.session:
             patientData=Patient.objects.get(patientEmail=request.session['patientEmail'])
             pid=patientData.pk
-            tempAppointment=Appointment(patientId=pid,doctorId=request.session['SpecialistDoctorId'],description="",medicinePrescribed="",appointmentCost=800,wasAdmitted=False)
+            tempAppointment=Appointment(patientId=pid,doctorId=request.session['SpecialistDoctorId'],description="",medicinePrescribed="",appointmentCost=800,wasAdmitted=False,appointmentTime=request.session['AppointmentTime'])
             tempAppointment.save()
             Patient.objects.filter(patientEmail=request.session['patientEmail']).update(currentlyAssignedDoctorId=request.session['SpecialistDoctorId'])
             del request.session['SpecialistId']
@@ -109,26 +104,63 @@ def ConfirmAppointment(request):
     else:
         return redirect('PatientLogin')
 
+def PatientBookAppointment(request):
+    if 'patientEmail' in request.session:
+        SpecializationList = Specialization.objects.all()
+        return render(request,'patient_book_appointment.html',{"SpecializationList":SpecializationList})
+    return redirect ('PatientLogin')
+
 def ShowDoctors(request,doctorSpecialization):
     if 'patientEmail' in request.session:
         SpecializationList = Specialization.objects.all()
         SpecializedDoctorList=Doctor.objects.filter(specialization_id=doctorSpecialization)
         SpecialistSelected=Specialization.objects.get(id=doctorSpecialization)
         request.session['SpecialistId']=doctorSpecialization
-        print(request.session['SpecialistId'])
         return render(request,'patient_book_appointment.html',{"SpecializationList":SpecializationList,"SpecializedDoctorList":SpecializedDoctorList,"SpecialistSelected":SpecialistSelected})
     return redirect ('PatientLogin')
 
 def SelectDoctor(request,doctorSpecialization,doctorId):
     if 'patientEmail' in request.session:
-        SpecializationList = Specialization.objects.all()
-        SpecializedDoctorList=Doctor.objects.filter(specialization_id=doctorSpecialization)
-        SpecialistSelected=Specialization.objects.get(id=doctorSpecialization)
-        SpecialistDoctorName=Doctor.objects.get(specialization_id=doctorSpecialization,id=doctorId)
-        request.session['SpecialistDoctorId']=doctorId
-        print(request.session['SpecialistDoctorId'])
-        return render(request,'patient_book_appointment.html',{"SpecializationList":SpecializationList,"SpecializedDoctorList":SpecializedDoctorList,"SpecialistSelected":SpecialistSelected,"SpecialistDoctorName":SpecialistDoctorName})
+        if 'SpecialistId' in request.session:
+            SpecializationList = Specialization.objects.all()
+            SpecializedDoctorList=Doctor.objects.filter(specialization_id=doctorSpecialization)
+            SpecialistSelected=Specialization.objects.get(id=doctorSpecialization)
+            SpecialistDoctorName=Doctor.objects.get(specialization_id=doctorSpecialization,id=doctorId)
+            request.session['SpecialistDoctorId']=doctorId
+            
+            AppointmentTime=["10:00:00","10:30:00","11:00:00","11:30:00","12:00:00","13:30:00","15:00:00","15:30:00","16:00:00","16:30:00","17:00:00","17:30:00","18:00:00","18:30:00"]
+            appointmentData=Appointment.objects.filter(doctorId=doctorId,status="Pending")
+            for i in appointmentData:
+                if i.appointmentTime in AppointmentTime:
+                    AppointmentTime.remove(i.appointmentTime)
+            
+            return render(request,'patient_book_appointment.html',{"SpecializationList":SpecializationList, "SpecializedDoctorList":SpecializedDoctorList,"SpecialistSelected":SpecialistSelected,"SpecialistDoctorName":SpecialistDoctorName,"AppointmentTime":AppointmentTime})
+        else:
+            return render(request,'patient_book_appointment.html',{"message":"Please select the specialist you want to book an appointment with.","SpecializationList":SpecializationList})
+    else:
+        return redirect('PatientLogin')
 
+def SelectTime(request,appointmentTime):
+    if 'patientEmail' in request.session:
+        SpecializationList = Specialization.objects.all()
+        if 'SpecialistId' and 'SpecialistDoctorId' in request.session:
+            SpecializedDoctorList=Doctor.objects.filter(specialization_id=request.session['SpecialistId'])
+            SpecialistSelected=Specialization.objects.get(id=request.session['SpecialistId'])
+            SpecialistDoctorName=Doctor.objects.get(specialization_id=request.session['SpecialistId'],id=request.session['SpecialistDoctorId'])
+            
+            AppointmentTime=["10:00","10:30","11:00","11:30","12:00","13:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30"]
+            appointmentData=Appointment.objects.filter(doctorId=request.session['SpecialistDoctorId'],status="Pending")
+            # Remove the time slots that are already booked under a specific doctor
+            for i in appointmentData:
+                if i.appointmentTime in AppointmentTime:
+                    AppointmentTime.remove(i.appointmentTime)
+            TimeSelected=appointmentTime
+            request.session['AppointmentTime']=appointmentTime
+            return render(request,'patient_book_appointment.html',{"SpecializationList":SpecializationList,"SpecializedDoctorList":SpecializedDoctorList,"SpecialistSelected":SpecialistSelected,"SpecialistDoctorName":SpecialistDoctorName,"AppointmentTime":AppointmentTime,"TimeSelected":TimeSelected})
+        else:
+            return render(request,'patient_book_appointment.html',{"message":"Please select the specialist type and the doctor you want to book an appointment with.","SpecializationList":SpecializationList})
+    else:
+        return redirect('PatientLogin')
 
 def PatientViewAppointment(request):
     return render(request,'patient_appointment.html')

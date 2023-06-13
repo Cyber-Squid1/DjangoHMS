@@ -17,6 +17,7 @@ urlpatterns = [
     path('bookAppointment/',PatientBookAppointment,name='PatientBookAppointment'),
     path('bookAppointment/<int:doctorSpecialization>',ShowDoctors,name='ShowDoctors'),
     path('bookAppointment/<int:doctorSpecialization>/<int:doctorId>/',SelectDoctor,name='SelectDoctor'),
+    path('bookAppointment/<str:appointmentTime>',SelectTime,name='SelectTime'),
     path('confirmAppointment/',ConfirmAppointment,name='ConfirmAppointment'),
     path('viewAppointment/',PatientViewAppointment,name='PatientViewAppointment'),
     path('contactUs/',ContactUs,name='ContactUs'),

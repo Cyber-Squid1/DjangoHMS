@@ -40,27 +40,27 @@ APPOINTMENT_STATUS=(
 )
 
 APPOINTMENT_TIME_CHOICES=(
-    ("10:00","10:00"),
-    ("10:30","10:30"),
-    ("11:00","11:00"),
-    ("11:30","11:30"),
-    ("12:00","12:00"),
-    ("13:30","13:30"),
-    ("15:00","15:00"),
-    ("15:30","15:30"),
-    ("16:00","16:00"),
-    ("16:30","16:30"),
-    ("17:00","17:00"),
-    ("17:30","17:30"),
-    ("18:00","18:00"),
-    ("18:30","18:30"),
+    ("10:00:00","10:00:00"),
+    ("10:30:00","10:30:00"),
+    ("11:00:00","11:00:00"),
+    ("11:30:00","11:30:00"),
+    ("12:00:00","12:00:00"),
+    ("13:30:00","13:30:00"),
+    ("15:00:00","15:00:00"),
+    ("15:30:00","15:30:00"),
+    ("16:00:00","16:00:00"),
+    ("16:30:00","16:30:00"),
+    ("17:00:00","17:00:00"),
+    ("17:30:00","17:30:00"),
+    ("18:00:00","18:00:00"),
+    ("18:30:00","18:30:00"),
 )
 
 class Appointment(models.Model):
     patientId=models.CharField(max_length=10)
     doctorId=models.CharField(max_length=10)
     appointmentDate=models.DateField(auto_now=True)
-    appointmentTime=models.TimeField(default=timezone.now(),choices=APPOINTMENT_TIME_CHOICES)
+    appointmentTime=models.CharField(max_length=12,default="",choices=APPOINTMENT_TIME_CHOICES)
     symptoms=models.CharField(max_length=1000,default="")
     medicinePrescribed=models.TextField(max_length=2000)
     appointmentCost=models.IntegerField()

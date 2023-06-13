@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2023 at 09:22 PM
+-- Generation Time: Jun 13, 2023 at 02:19 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -136,7 +136,7 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$390000$GAUCGTviqb3xmADMgk59CZ$w9AG79Ylih+iXULG9/LQhUfXbtBDCoXf0CQuqC+uesE=', '2023-06-12 13:35:06.294419', 1, 'ompatel', '', '', 'ompatel22072002@gmail.com', 1, 1, '2023-06-12 13:33:06.638465');
+(1, 'pbkdf2_sha256$390000$GAUCGTviqb3xmADMgk59CZ$w9AG79Ylih+iXULG9/LQhUfXbtBDCoXf0CQuqC+uesE=', '2023-06-13 05:59:59.365885', 1, 'ompatel', '', '', 'ompatel22072002@gmail.com', 1, 1, '2023-06-12 13:33:06.638465');
 
 -- --------------------------------------------------------
 
@@ -185,7 +185,8 @@ CREATE TABLE `django_admin_log` (
 
 INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`, `action_flag`, `change_message`, `content_type_id`, `user_id`) VALUES
 (1, '2023-06-12 13:45:42.615313', '2', 'Dr. ABC', 1, '[{\"added\": {}}]', 10, 1),
-(2, '2023-06-12 13:46:13.420498', '3', 'Dr. XYZ', 1, '[{\"added\": {}}]', 10, 1);
+(2, '2023-06-12 13:46:13.420498', '3', 'Dr. XYZ', 1, '[{\"added\": {}}]', 10, 1),
+(3, '2023-06-13 12:09:14.856584', '12', '2', 1, '[{\"added\": {}}]', 11, 1);
 
 -- --------------------------------------------------------
 
@@ -274,7 +275,17 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (37, 'HMS', '0019_alter_admittedpatientdetails_appointmentdetailsid_and_more', '2023-06-12 17:48:37.148941'),
 (38, 'HMS', '0020_appointment', '2023-06-12 17:48:54.020978'),
 (39, 'HMS', '0021_alter_admittedpatientdetails_doctoridid_and_more', '2023-06-12 17:49:12.599055'),
-(40, 'HMS', '0022_rename_doctoridid_admittedpatientdetails_doctorid_and_more', '2023-06-12 17:50:05.454035');
+(40, 'HMS', '0022_rename_doctoridid_admittedpatientdetails_doctorid_and_more', '2023-06-12 17:50:05.454035'),
+(41, 'HMS', '0023_remove_patient_symptoms_appointment_symptoms', '2023-06-13 05:17:59.530508'),
+(42, 'HMS', '0024_appointment_appointmenttime_appointment_staust', '2023-06-13 05:33:45.930562'),
+(43, 'HMS', '0025_alter_appointment_appointmenttime_and_more', '2023-06-13 05:37:04.159245'),
+(44, 'HMS', '0026_alter_appointment_appointmenttime', '2023-06-13 05:39:34.202186'),
+(45, 'HMS', '0027_rename_staust_appointment_status_and_more', '2023-06-13 05:40:47.086500'),
+(46, 'HMS', '0028_alter_appointment_appointmenttime', '2023-06-13 12:00:47.333949'),
+(47, 'HMS', '0029_alter_appointment_appointmenttime', '2023-06-13 12:03:55.289827'),
+(48, 'HMS', '0030_alter_appointment_appointmenttime', '2023-06-13 12:05:57.520619'),
+(49, 'HMS', '0031_alter_appointment_appointmenttime', '2023-06-13 12:07:05.111639'),
+(50, 'HMS', '0032_alter_appointment_appointmenttime', '2023-06-13 12:08:56.163501');
 
 -- --------------------------------------------------------
 
@@ -293,7 +304,8 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('zfcvbdhhgd3t740954vaom2ple5tcsir', '.eJxVjssOgjAQRf-FtWn6BlwZo0u_gUzbqaBAsZSV8d8tCQtYTXLPuTfzLRpYUtssM8amc8W5YMVpnxmwbxxX4F4wPgOxYUyxM2RVyEZn8ggO--vmHgZamNvcVobWlGmtUct8vEDGuAdRubpmikmvJBdYUVVpkF6D0t44JUpLmZLKYR7FAbo-T4VhgoQ957TklPLLc83zX0N2bsGmEO-bOX3igboDBWN39PcH_1tWbw:1q8n4o:kSK3xYqIGFXS2XlesvHeTI8cQ0ASfXWpLSgsOa4tQqw', '2023-06-26 19:19:42.971343');
+('1z6tivjqljbtgpvrv0uihylwy2o1jlkd', '.eJxVjDsOgzAQRO_iOkL-rYFUUaSUOQNa4zU4ATsCU0W5e4xEQzXSmzfzZR_MgWJ-zBgmdmVpLoAmKXktOZe3YedVn2Z2YR1ueey2lZYuuOKKM7PYvynuhXthHFJZxbwEW-1KdbRr9UyOpvvhng5GXMeyBstbLowxZHQJr0gI6VE1rm0FCO1BS0UNh8ag9gbBeOtA1T0XoMER-_0BUbZEuw:1q8xNW:ravYNKEhPijrg0rDe2o_idEAi4f-tgENgqqR59SYDqY', '2023-06-27 06:19:42.150447'),
+('zfcvbdhhgd3t740954vaom2ple5tcsir', '.eJxVkMtOxDAMRf-la1TlPe2sGAQLFqxgXzmJMw00D9rMCvHvJKKLqWTJ0j3X15Z_ugluZZ5uG66Tt925o93DvabBfGFswH5CvKbepFhWr_tm6Xe69W_J4vK0ew8BM2xznZaajIQqpVCJ2hxHSpkDPthxpJIKJwXjOBA5KBBOgVROW8lPhlAppMUaigH8UqNSyFBwYYycGCHs8dr0eleonudkSlpfdmf-Xg_UHihoc6CXnJOPJWAsHz5g-wU7E1KrwveMxsPit_Jan8Hvhf-dTWa_f0E7bLI:1q92zD:8T2gafqFyDZ-9_eJOq2ySH4hOJ-QThq6psf1fW74vjc', '2023-06-27 12:18:59.474180');
 
 -- --------------------------------------------------------
 
@@ -327,17 +339,21 @@ CREATE TABLE `hms_appointment` (
   `doctorId` varchar(10) NOT NULL,
   `appointmentDate` date NOT NULL,
   `description` longtext NOT NULL,
-  `medicinePrescribed` varchar(1000) NOT NULL,
+  `medicinePrescribed` longtext NOT NULL,
   `appointmentCost` int(11) NOT NULL,
-  `wasAdmitted` tinyint(1) NOT NULL
+  `wasAdmitted` tinyint(1) NOT NULL,
+  `symptoms` varchar(1000) NOT NULL,
+  `appointmentTime` varchar(12) NOT NULL,
+  `status` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `hms_appointment`
 --
 
-INSERT INTO `hms_appointment` (`id`, `patientId`, `doctorId`, `appointmentDate`, `description`, `medicinePrescribed`, `appointmentCost`, `wasAdmitted`) VALUES
-(7, '1', '2', '2023-06-13', '', '', 800, 0);
+INSERT INTO `hms_appointment` (`id`, `patientId`, `doctorId`, `appointmentDate`, `description`, `medicinePrescribed`, `appointmentCost`, `wasAdmitted`, `symptoms`, `appointmentTime`, `status`) VALUES
+(12, '1', '2', '2023-06-13', 'asdasd', 'asd', 800, 0, 'asd', '10:00:00', 'PENDING'),
+(13, '1', '2', '2023-06-13', '', '', 800, 0, '', '12:00:00', 'PENDING');
 
 -- --------------------------------------------------------
 
@@ -394,7 +410,6 @@ CREATE TABLE `hms_patient` (
   `password` varchar(200) NOT NULL,
   `address` varchar(300) NOT NULL,
   `patientProfileImg` varchar(100) NOT NULL,
-  `symptoms` varchar(1000) NOT NULL,
   `currentlyAssignedDoctorId` varchar(8) NOT NULL,
   `patientMedicalReport` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -403,8 +418,8 @@ CREATE TABLE `hms_patient` (
 -- Dumping data for table `hms_patient`
 --
 
-INSERT INTO `hms_patient` (`id`, `patientName`, `patientEmail`, `phone`, `password`, `address`, `patientProfileImg`, `symptoms`, `currentlyAssignedDoctorId`, `patientMedicalReport`) VALUES
-(1, 'Om Patel', 'ompatel22072002@gmail.com', 7016104220, '123456', 'Jamnagar', '', '', '2', '');
+INSERT INTO `hms_patient` (`id`, `patientName`, `patientEmail`, `phone`, `password`, `address`, `patientProfileImg`, `currentlyAssignedDoctorId`, `patientMedicalReport`) VALUES
+(1, 'Om Patel', 'ompatel22072002@gmail.com', 7016104220, '123456', 'Jamnagar', '', '2', '');
 
 -- --------------------------------------------------------
 
@@ -586,7 +601,7 @@ ALTER TABLE `auth_user_user_permissions`
 -- AUTO_INCREMENT for table `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `django_content_type`
@@ -598,7 +613,7 @@ ALTER TABLE `django_content_type`
 -- AUTO_INCREMENT for table `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `hms_admittedpatientdetails`
@@ -610,7 +625,7 @@ ALTER TABLE `hms_admittedpatientdetails`
 -- AUTO_INCREMENT for table `hms_appointment`
 --
 ALTER TABLE `hms_appointment`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `hms_doctor`

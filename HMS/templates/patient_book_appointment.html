@@ -159,7 +159,24 @@
           <button type="submit" class="btnSubmit">Book</button>
         </div>
         <div class="form-content2">
-          Select Appointment Time: <label for=""></label>
+          Select Appointment Time:
+          <form method="post">
+            <div class="dropdown">
+              {% if TimeSelected %}
+              <label for="" class="dropbtn">{{TimeSelected}}</label>
+              {% else %}
+              <label for="" class="dropbtn">Select Time</label>
+              {% endif %}
+              <div class="dropdown-content">
+                {% for x in AppointmentTime %}
+                <a
+                  href="{% url 'SelectTime' x %}"
+                  >{{x}}</a
+                >
+                {% endfor %}
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
