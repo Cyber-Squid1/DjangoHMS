@@ -35,7 +35,7 @@ def DoctorDashboard(request):
         # AppointmentData=Appointment.objects.filter(appointmentDate=todayDate,status="PENDING") {"appointmentData":AppointmentData}
         return render(request,'doctor_dashboard.html')
 
-def ViewPatientRecords(request):
+def ViewYourPatientRecords(request):
     if 'doctorEmail' in request.session:
         myData=Doctor.objects.get(doctorEmail=request.session['doctorEmail'])
         docId=myData.pk
@@ -44,7 +44,7 @@ def ViewPatientRecords(request):
         for i in tempPatientAppoinmentData:
             patientDict={}
             tempPatientData=Patient.objects.get(id=i.patientId)
-            patientDict['name']=tempPatientData.patientName
+            patientDict['patientName']=tempPatientData.patientName
             patientDict['phone']=tempPatientData.phone
             patientDict['address']=tempPatientData.address
             patientDict['symptoms']=i.symptoms
@@ -55,12 +55,18 @@ def ViewPatientRecords(request):
     else:
         return redirect('DoctorLogin')
 
+def ViewAllPatientDetails(request):
+    if 'doctorEmail' in request.session:
+        allPatientsData=Patient.objects.all()
+    return render(request,'doctor_view_patient.html',{"patientList":allPatientsData})
+
 def ViewSinglePatientRecord(request,patientId):
     if 'doctorEmail' in request.session:
+        allRecords=Appointment.objects.filter(patientId=patientId)
         patientRecord=Appointment.objects.filter(patientId=patientId,status="COMPLETED")
         currentAppointmentData=Appointment.objects.get(patientId=patientId,status="PENDING")
         patientData=Patient.objects.get(id=patientId)
-        return render(request,'doctor_view_patient_record.html',{"patientPreviousRecord":patientRecord,"patientData":patientData,"currentAppointmentId":currentAppointmentData.pk})
+        return render(request,'doctor_view_patient_record.html',{"patientPreviousRecord":patientRecord,"patientData":patientData,"currentAppointmentId":currentAppointmentData.pk,"allRecords":allRecords})
 
 def AppointmentComplete(request,patientId):
     if 'doctorEmail' in request.session:
@@ -68,7 +74,8 @@ def AppointmentComplete(request,patientId):
         medicine=request.POST['med']
         description1=request.POST['desc']
         currPK=request.POST['currappPK']
-        Appointment.objects.filter(id=currPK,patientId=patientId,status="PENDING").update(description=description1,medicinePrescribed=medicine,symptoms=symptoms1,status="COMPLETED")
+        wasAdmitted1=request.POST['wasAdmitted']
+        Appointment.objects.filter(id=currPK,patientId=patientId,status="PENDING").update(description=description1,medicinePrescribed=medicine,symptoms=symptoms1,status="COMPLETED",wasAdmitted=bool(wasAdmitted1))
         Patient.objects.filter(id=patientId).update(currentlyAssignedDoctorId="")
         return redirect('DoctorViewAppointment')
     else:

@@ -2,6 +2,14 @@ from django.db import models
 from django.utils import timezone
 # Create your models here.
 
+class Admin(models.Model):
+    adminEmail=models.EmailField()
+    adminName=models.CharField(max_length=200)
+    password=models.CharField(max_length=400)
+    
+    def __str__(self):
+        return self.adminName
+
 class Specialization(models.Model):
     specialization=models.CharField(max_length=200,unique=True,null=False)
     

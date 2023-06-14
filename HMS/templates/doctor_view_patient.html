@@ -23,7 +23,7 @@
   </style>
 </head>
 
-<div class="container">
+<!-- <div class="container">
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h6 class="panel-title">Your Total Patient List</h6>
@@ -34,9 +34,6 @@
           <th>Name</th>
           <th>Contact</th>
           <th>Address</th>
-          <th>Symptoms</th>
-          <th>Medicines Given</th>
-          <th>Description</th>
         </tr>
       </thead>
       {% for p in patientList %}
@@ -44,12 +41,42 @@
         <td>{{p.name}}</td>
         <td>{{p.phone}}</td>
         <td>{{p.address}}</td>
-        <td>{{p.symptoms}}</td>
-        <td>{{p.medicine}}</td>
-        <td>{{p.description}}</td>
       </tr>
       {% endfor %}
     </table>
+  </div>
+</div> -->
+
+<div class="container">
+  <button><a href="{% url 'DoctorPatient' %}">&larr;Go Back</a></button>
+  <div class="row">
+    <div class="panel panel-primary" style="margin-left: 2%">
+      <div class="panel-heading" style="text-align: center">
+        <h6 class="panel-title">Patient Medical History</h6>
+      </div>
+      <table
+        class="table table-hover table-striped"
+        id="dev-table"
+        style="table-layout: fixed"
+      >
+        <thead class="thead-dark">
+          <tr>
+            <th>Name</th>
+            <th>Mobile Number</th>
+            <th>Address</th>
+            <th></th>
+          </tr>
+        </thead>
+        {% for p in patientList %}
+        <tr>
+          <td>{{p.patientName}}</td>
+          <td>{{p.phone}}</td>
+          <td>{{p.address}}</td>
+          <td><a href="#">View Record</a></td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
   </div>
 </div>
 

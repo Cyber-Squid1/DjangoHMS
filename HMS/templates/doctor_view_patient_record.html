@@ -1,49 +1,160 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <title>Document</title>
+    <style>
+      a:hover {
+        text-decoration: none;
+      }
+      td {
+        word-wrap: break-word;
+      }
+      .go-back {
+        background-color: whitesmoke;
+        float: left;
+        padding: 10px;
+        margin: 5px;
+        margin-bottom: 10px;
+        color: black;
+        border: 2px solid black;
+        border-radius: 5px;
+      }
+      .go-back:hover{
+        text-underline-position: below;
+      }
+      .logout {
+        background-color: whitesmoke;
+        float: right;
+        padding: 10px;
+        margin: 5px;
+        text-decoration: none;
+        color: black;
+        border: 2px solid black;
+      }
+      .logout:hover{
+        text-underline-position: below;
+      }
+    </style>
   </head>
   <body>
-    <p>Patient Name: {{patientData.patientName}}</p>
-    <p>Mobile Number: {{patientData.phone}}</p>
-    <p>Patient Name: {{patientData.patientName}}</p>
-    <form action="{% url 'AppointmentComplete' patientData.pk %}" method="POST">
-      {% csrf_token %}
-      <div class="current" style="display: flex;align-items:center;">
-        <p>Add Symptoms:</p><textarea name="sym" id="" cols="30" rows="10" style="margin: 10px;"></textarea>
-        <p>Medicines Prescribed: </p><textarea name="med" id="" cols="30" rows="10" style="margin: 10px;"></textarea>
-        <p>Description: </p><textarea name="desc" id="" cols="30" rows="10" style="margin: 10px;"></textarea>
-        <input type="text" name="currappPK" id="" hidden value="{{currentAppointmentId}}">
+    <div class="navbar" style="background-color: #337ab7">
+      <nav>
+        <a href="{% url 'DoctorViewAppointment' %}" class="go-back">&larr; Go Back</a>
+        <a href="{% url 'Logout' %}" class="logout">Logout</a>
+      </nav>
+    </div>
+    <div class="main" style="padding: 2px; margin: 5px; position: relative">
+      <p>Patient Name: {{patientData.patientName}}</p>
+      <p>Mobile Number: {{patientData.phone}}</p>
+      <p>Patient Name: {{patientData.patientName}}</p>
+      <form
+        action="{% url 'AppointmentComplete' patientData.pk %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <div class="current" style="display: flex; align-items: center">
+          <p>Add Symptoms:</p>
+          <textarea
+            name="sym"
+            id=""
+            cols="30"
+            rows="4"
+            style="margin: 10px"
+          ></textarea>
+          <p>Medicines Prescribed:</p>
+          <textarea
+            name="med"
+            id=""
+            cols="30"
+            rows="4"
+            style="margin: 10px"
+          ></textarea>
+          <p>Description:</p>
+          <textarea
+            name="desc"
+            id=""
+            cols="30"
+            rows="4"
+            style="margin: 10px"
+          ></textarea>
+          <input
+            type="text"
+            name="currappPK"
+            id=""
+            hidden
+            value="{{currentAppointmentId}}"
+          />
+        </div>
+        <div style="margin: 8px">
+          <p>
+            Was Admitted:
+            <input type="radio" name="wasAdmitted" id="" value="1" /> Yes
+            <input type="radio" name="wasAdmitted" id="" value="" /> No
+          </p>
+        </div>
+        <button type="submit">Update Patient Record</button>
+      </form>
+      <br />
+      <br />
+      <div class="container">
+        <div class="row">
+          <div class="panel panel-primary" style="margin-left: 2%">
+            <div class="panel-heading" style="text-align: center">
+              <h6 class="panel-title">Patient Medical History</h6>
+            </div>
+            <table
+              class="table table-hover table-striped"
+              id="dev-table"
+              style="table-layout: fixed"
+            >
+              <thead class="thead-dark">
+                <tr>
+                  <th>Appointment Date</th>
+                  <th>Appointment Time</th>
+                  <th>Symptoms</th>
+                  <th>Medicines Prescribed</th>
+                  <th>Description</th>
+                  <th>Was Admitted</th>
+                </tr>
+              </thead>
+              {% for i in patientPreviousRecord %}
+              <tr>
+                <td>{{i.appointmentDate}}</td>
+                <td>{{i.appointmentTime}}</td>
+                <td>{{i.symptoms}}</td>
+                <td>{{i.medicinePrescribed}}</td>
+                <td>{{i.description}}</td>
+                {% if i.wasAdmitted == True%}
+                <td><a href="">True(View Record)</a></td>
+                {% else %}
+                <td>{{i.wasAdmitted}}</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
       </div>
-      <button type="submit">Update Patient Record</button>
-    </form>
-    <br>
-    <div class="history center-block" style="text-align: center">
-      <table border="2px" style="width: 90%; margin: 10px">
-        <caption>
-          Patient Record History
-        </caption>
-        <thead>
-          <tr>
-            <th>Appointment Date</th>
-            <th>Appointment Time</th>
-            <th>Symptoms</th>
-            <th>Medicines Prescribed</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        {% for i in patientPreviousRecord %}
-        <tr>
-          <td>{{i.appointmentDate}}</td>
-          <td>{{i.appointmentTime}}</td>
-          <td>{{i.symptoms}}</td>
-          <td>{{i.medicinePrescribed}}</td>
-          <td>{{i.description}}</td>
-        </tr>
-        {% endfor %}
-      </table>
     </div>
   </body>
 </html>
