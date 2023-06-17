@@ -41,7 +41,7 @@
         <td>{{i.name}}</td>
         <td>{{i.phone}}</td>
         <td>{{i.time}}</td>
-        <td><a href="{% url 'ViewSinglePatientRecord' i.patientId %}">Open Records</a></td>
+        <td><a href="{% url 'ViewSinglePatientRecord' i.patientId x %}">Open Records</a></td>
       </tr>
       {% endfor %}
     </table>

@@ -16,3 +16,8 @@ patient_book_appointment.html
 </option>
 {% endfor %}
 </select> -->
+
+
+
+doctor_view_patient.html
+<!-- <td><a href="{% url 'ViewSinglePatientRecord' p.pk %}">View Record</a></td> -->

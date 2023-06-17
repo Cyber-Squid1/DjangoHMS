@@ -59,7 +59,13 @@
   <body>
     <div class="navbar" style="background-color: #337ab7">
       <nav>
+        {% if pageChoice == 0 %}
         <a href="{% url 'DoctorViewAppointment' %}" class="go-back">&larr; Go Back</a>
+        {% elif pageChoice == 1 %}
+        <a href="{% url 'ViewAllPatientRecords' %}" class="go-back">&larr; Go Back</a>
+        {% elif pageChoice == 2 %}
+        <a href="{% url 'ViewYourPatientRecords' %}" class="go-back">&larr; Go Back</a>
+        {% endif %}
         <a href="{% url 'Logout' %}" class="logout">Logout</a>
       </nav>
     </div>
@@ -67,6 +73,7 @@
       <p>Patient Name: {{patientData.patientName}}</p>
       <p>Mobile Number: {{patientData.phone}}</p>
       <p>Patient Name: {{patientData.patientName}}</p>
+      {% if pageChoice == 0 %}
       <form
         action="{% url 'AppointmentComplete' patientData.pk %}"
         method="POST"
@@ -114,6 +121,7 @@
         </div>
         <button type="submit">Update Patient Record</button>
       </form>
+      {% endif %}
       <br />
       <br />
       <div class="container">

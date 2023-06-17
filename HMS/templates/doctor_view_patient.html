@@ -23,36 +23,16 @@
   </style>
 </head>
 
-<!-- <div class="container">
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h6 class="panel-title">Your Total Patient List</h6>
-    </div>
-    <table class="table table-hover" id="dev-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Contact</th>
-          <th>Address</th>
-        </tr>
-      </thead>
-      {% for p in patientList %}
-      <tr>
-        <td>{{p.name}}</td>
-        <td>{{p.phone}}</td>
-        <td>{{p.address}}</td>
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
-</div> -->
-
 <div class="container">
   <button><a href="{% url 'DoctorPatient' %}">&larr;Go Back</a></button>
   <div class="row">
     <div class="panel panel-primary" style="margin-left: 2%">
       <div class="panel-heading" style="text-align: center">
-        <h6 class="panel-title">Patient Medical History</h6>
+        {% if x == 1 %}
+        <h6 class="panel-title">All Patient Medical History</h6>
+        {% elif x == 2 %}
+        <h6 class="panel-title">Your Patient Medical History</h6>
+        {% endif %}
       </div>
       <table
         class="table table-hover table-striped"
@@ -72,7 +52,7 @@
           <td>{{p.patientName}}</td>
           <td>{{p.phone}}</td>
           <td>{{p.address}}</td>
-          <td><a href="#">View Record</a></td>
+          <td><a href="{% url 'ViewSinglePatientRecord' p.pk x %}">View Record</a></td>
         </tr>
         {% endfor %}
       </table>

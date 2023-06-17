@@ -169,49 +169,23 @@
           <div class="clearfix"></div>
         </div>
       </div>
-      <div class="col-md-4 market-update-gd">
-        <div class="market-update-block clr-block-3">
-          <div class="col-md-8 market-update-left">
-            <h3>{{patientdischarged}}</h3>
-            <h4>Discharged Patient</h4>
+      <a href="{% url 'ViewAdmittedPatients' %}">
+        <div class="col-md-4 market-update-gd">
+          <div class="market-update-block clr-block-3">
+            <div class="col-md-8 market-update-left">
+              <h4>Admitted Patient</h4>
+            </div>
+            <div class="col-md-4 market-update-right">
+              <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+            </div>
+            <div class="clearfix"></div>
           </div>
-          <div class="col-md-4 market-update-right">
-            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-          </div>
-          <div class="clearfix"></div>
         </div>
-      </div>
+      </a>
       <div class="clearfix"></div>
     </div>
   </body>
 </html>
 <br /><br /><br /><br />
-<div class="container">
-  <div class="row">
-    <div class="panel panel-primary" style="margin-left: 2%">
-      <div class="panel-heading" style="text-align: center">
-        <h6 class="panel-title">Recent Appointments For You</h6>
-      </div>
-      <table class="table table-hover table-striped" id="dev-table">
-        <thead class="thead-dark">
-          <tr>
-            <th>Patient Name</th>
-            <th>Contact</th>
-            <th>Address</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        {% for a,p in appointments %}
-        <tr>
-          <td>{{a.patientName}}</td>
-          <td>{{p.mobile}}</td>
-          <td>{{prevAppointment}}</td>
-          <td>{{a.appointmentTime}}</td>
-        </tr>
-        {% endfor %}
-      </table>
-    </div>
-  </div>
-</div>
 
 {% endblock content %}

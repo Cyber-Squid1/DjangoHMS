@@ -83,12 +83,11 @@ class AdmittedPatientDetails(models.Model):
     patientId=models.CharField(max_length=10)
     doctorId=models.CharField(max_length=10)
     admittedOn=models.DateField()
-    dischargeDate=models.DateField()
-    roomCharges=models.IntegerField()
-    MedicineCost=models.IntegerField()
-    doctorFees=models.IntegerField()
-    otherCharges=models.IntegerField()
-    totalCost=models.IntegerField()
+    dischargeDate=models.DateField(null=True)
+    roomCharges=models.IntegerField(null=True)
+    MedicineCost=models.IntegerField(null=True)
+    otherCharges=models.IntegerField(null=True)
+    totalCost=models.IntegerField(null=True)
     
     def __str__(self):
         return self.appointmentDetailsId

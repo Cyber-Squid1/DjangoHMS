@@ -31,42 +31,54 @@ def DoctorLogin(request):
 
 def DoctorDashboard(request):
     if 'doctorEmail' in request.session:
+        doctorData=Doctor.objects.get(doctorEmail=request.session['doctorEmail'])
         # todayDate=datetime.date()
         # AppointmentData=Appointment.objects.filter(appointmentDate=todayDate,status="PENDING") {"appointmentData":AppointmentData}
-        return render(request,'doctor_dashboard.html')
+        return render(request,'doctor_dashboard.html',{"doctorData":doctorData})
 
 def ViewYourPatientRecords(request):
     if 'doctorEmail' in request.session:
         myData=Doctor.objects.get(doctorEmail=request.session['doctorEmail'])
         docId=myData.pk
-        tempPatientAppoinmentData=Appointment.objects.filter(doctorId=docId)
+        patientAppoinmentData=Appointment.objects.filter(doctorId=docId)
         patientList=[]
-        for i in tempPatientAppoinmentData:
+        idList=[]
+        for i in patientAppoinmentData:
             patientDict={}
-            tempPatientData=Patient.objects.get(id=i.patientId)
-            patientDict['patientName']=tempPatientData.patientName
-            patientDict['phone']=tempPatientData.phone
-            patientDict['address']=tempPatientData.address
-            patientDict['symptoms']=i.symptoms
-            patientDict['medicines']=i.medicinePrescribed
-            patientDict['description']=i.description
-            patientList.append(patientDict)
-        return render(request,'doctor_view_patient.html',{"patientList":patientList})
+            patientData=Patient.objects.get(id=i.patientId)
+            if i.patientId in idList:
+                continue
+            else:
+                patientDict['pk']=patientData.pk
+                patientDict['patientName']=patientData.patientName
+                patientDict['phone']=patientData.phone
+                patientDict['address']=patientData.address
+                idList.append(i.patientId)
+                patientList.append(patientDict)
+        print("ID list: ",idList)
+        return render(request,'doctor_view_patient.html',{"patientList":patientList,"x":2})
     else:
         return redirect('DoctorLogin')
 
-def ViewAllPatientDetails(request):
+def ViewAllPatientRecords(request):
     if 'doctorEmail' in request.session:
         allPatientsData=Patient.objects.all()
-    return render(request,'doctor_view_patient.html',{"patientList":allPatientsData})
+    return render(request,'doctor_view_patient.html',{"patientList":allPatientsData,"x":1})
 
-def ViewSinglePatientRecord(request,patientId):
+def ViewSinglePatientRecord(request,patientId,x):
     if 'doctorEmail' in request.session:
+        docData=Doctor.objects.get(doctorEmail=request.session['doctorEmail'])
         allRecords=Appointment.objects.filter(patientId=patientId)
         patientRecord=Appointment.objects.filter(patientId=patientId,status="COMPLETED")
-        currentAppointmentData=Appointment.objects.get(patientId=patientId,status="PENDING")
+        try:
+            currentAppointmentData=Appointment.objects.get(patientId=patientId,doctorId=docData.pk,status="PENDING")
+        except:
+            print()
         patientData=Patient.objects.get(id=patientId)
-        return render(request,'doctor_view_patient_record.html',{"patientPreviousRecord":patientRecord,"patientData":patientData,"currentAppointmentId":currentAppointmentData.pk,"allRecords":allRecords})
+        if x == 0:
+            return render(request,'doctor_view_patient_record.html',{"patientPreviousRecord":patientRecord,"patientData":patientData,"currentAppointmentId":currentAppointmentData.pk,"allRecords":allRecords,"pageChoice":x})
+        else:
+            return render(request,'doctor_view_patient_record.html',{"patientPreviousRecord":patientRecord,"patientData":patientData,"allRecords":allRecords,"pageChoice":x})
 
 def AppointmentComplete(request,patientId):
     if 'doctorEmail' in request.session:
@@ -76,8 +88,17 @@ def AppointmentComplete(request,patientId):
         currPK=request.POST['currappPK']
         wasAdmitted1=request.POST['wasAdmitted']
         Appointment.objects.filter(id=currPK,patientId=patientId,status="PENDING").update(description=description1,medicinePrescribed=medicine,symptoms=symptoms1,status="COMPLETED",wasAdmitted=bool(wasAdmitted1))
-        Patient.objects.filter(id=patientId).update(currentlyAssignedDoctorId="")
-        return redirect('DoctorViewAppointment')
+        if bool(wasAdmitted1):
+            patientData=Patient.objects.get(id=patientId)
+            doctorData=Doctor.objects.get(doctorEmail=request.session['doctorEmail'])
+            appointmentData=Appointment.objects.get(id=currPK)
+            temp=AdmittedPatientDetails(doctorId=doctorData.pk,patientId=patientData.pk,admittedOn=appointmentData.appointmentDate,appointmentDetailsId=currPK)
+            print("Doctorid",doctorData.pk)
+            temp.save()
+            return render(request,'doctor_admit_patient.html',{"appointmentDetails":appointmentData,"patientData":patientData,"doctorData":doctorData})
+        else:
+            Patient.objects.filter(id=patientId).update(currentlyAssignedDoctorId="")
+            return redirect('DoctorViewAppointment')
     else:
         return redirect('DoctorLogin')
 
@@ -94,11 +115,20 @@ def DoctorViewAppointment(request):
             patientDict['time']=i.appointmentTime
             patientDict['patientId']=i.patientId
             patientList.append(patientDict)
-        return render(request,'doctor_view_appointment.html',{"patientList":patientList})
+        return render(request,'doctor_view_appointment.html',{"patientList":patientList,"x":0})
 
 def DoctorPatient(request):
     if 'doctorEmail' in request.session:
         return render(request,'doctor_patient.html')
+
+
+def ViewAdmittedPatients(request):
+    if 'doctorEmail' in request.session:
+        admittedPatientsData=AdmittedPatientDetails.objects.all()
+        return render(request,'doctor_view_admitted_patients.html',{"admittedPatientsData":admittedPatientsData})
+    else:
+        return redirect('DoctorLogin')
+
 
 def PatientLogin(request):
     if 'patientEmail' in request.session:
@@ -124,7 +154,8 @@ def PatientDashboard(request):
         patientData=Patient.objects.get(patientEmail=request.session['patientEmail'])
         if patientData.currentlyAssignedDoctorId:
             doctorData=Doctor.objects.get(pk=patientData.currentlyAssignedDoctorId)
-            return render(request,'patient_dashboard.html',{"hasDoctorAssigned":1,"doctorData":doctorData,"patientName":patientData.patientName})
+            AppointmentData=Appointment.objects.get(patientId=patientData.pk,doctorId=patientData.currentlyAssignedDoctorId,status="PENDING")
+            return render(request,'patient_dashboard.html',{"hasDoctorAssigned":1,"doctorData":doctorData,"patientName":patientData.patientName,"appointmentData":AppointmentData})
         else:
             return render(request,'patient_dashboard.html',{"hasDoctorAssigned":0})
     else:
