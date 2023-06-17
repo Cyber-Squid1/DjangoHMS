@@ -19,5 +19,5 @@ patient_book_appointment.html
 
 
 
-doctor_view_patient.html
-<!-- <td><a href="{% url 'ViewSinglePatientRecord' p.pk %}">View Record</a></td> -->
+view_admitted_patient_details.html
+<!-- <form action="{% url 'AppointmentComplete' patientData.pk %}" method="POST" > -->

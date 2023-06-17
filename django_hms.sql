@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2023 at 08:59 PM
+-- Generation Time: Jun 17, 2023 at 09:24 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -109,7 +109,11 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (45, 'Can add admitted patient details', 12, 'add_admittedpatientdetails'),
 (46, 'Can change admitted patient details', 12, 'change_admittedpatientdetails'),
 (47, 'Can delete admitted patient details', 12, 'delete_admittedpatientdetails'),
-(48, 'Can view admitted patient details', 12, 'view_admittedpatientdetails');
+(48, 'Can view admitted patient details', 12, 'view_admittedpatientdetails'),
+(49, 'Can add admin', 13, 'add_admin'),
+(50, 'Can change admin', 13, 'change_admin'),
+(51, 'Can delete admin', 13, 'delete_admin'),
+(52, 'Can view admin', 13, 'view_admin');
 
 -- --------------------------------------------------------
 
@@ -210,6 +214,7 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (2, 'auth', 'permission'),
 (4, 'auth', 'user'),
 (5, 'contenttypes', 'contenttype'),
+(13, 'HMS', 'admin'),
 (12, 'HMS', 'admittedpatientdetails'),
 (11, 'HMS', 'appointment'),
 (10, 'HMS', 'doctor'),
@@ -286,7 +291,12 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (48, 'HMS', '0030_alter_appointment_appointmenttime', '2023-06-13 12:05:57.520619'),
 (49, 'HMS', '0031_alter_appointment_appointmenttime', '2023-06-13 12:07:05.111639'),
 (50, 'HMS', '0032_alter_appointment_appointmenttime', '2023-06-13 12:08:56.163501'),
-(51, 'HMS', '0033_remove_patient_patientmedicalreport_and_more', '2023-06-13 18:56:47.344204');
+(51, 'HMS', '0033_remove_patient_patientmedicalreport_and_more', '2023-06-13 18:56:47.344204'),
+(52, 'HMS', '0034_admin', '2023-06-14 11:14:55.907877'),
+(53, 'HMS', '0035_alter_admittedpatientdetails_dischargedate', '2023-06-17 12:24:56.750975'),
+(54, 'HMS', '0036_alter_admittedpatientdetails_dischargedate', '2023-06-17 12:25:10.883855'),
+(55, 'HMS', '0037_remove_admittedpatientdetails_doctorfees_and_more', '2023-06-17 12:27:11.329291'),
+(56, 'HMS', '0038_admittedpatientdetails_status', '2023-06-17 17:55:18.009310');
 
 -- --------------------------------------------------------
 
@@ -306,7 +316,21 @@ CREATE TABLE `django_session` (
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
 ('1z6tivjqljbtgpvrv0uihylwy2o1jlkd', '.eJxVjDsOgzAQRO_iOkL-rYFUUaSUOQNa4zU4ATsCU0W5e4xEQzXSmzfzZR_MgWJ-zBgmdmVpLoAmKXktOZe3YedVn2Z2YR1ueey2lZYuuOKKM7PYvynuhXthHFJZxbwEW-1KdbRr9UyOpvvhng5GXMeyBstbLowxZHQJr0gI6VE1rm0FCO1BS0UNh8ag9gbBeOtA1T0XoMER-_0BUbZEuw:1q8xNW:ravYNKEhPijrg0rDe2o_idEAi4f-tgENgqqR59SYDqY', '2023-06-27 06:19:42.150447'),
+('wycjdd18xibxs38lgg7s0cxmqyz53gbg', '.eJyrVnIsKMjPzCvJTc0rCcnMTVWyUjI0sjIwACIlHaXggtTkzMSczOISzxQlK2NkAZf85JL8IqhwCpjjmpuYmQM0IDEp2SEdxNZLzs9VqgUAenYhTw:1qAbVF:T3wspv2g3REnwa45qh1C_So1h2M-uAtaqx7HlSQLkAY', '2023-07-01 19:22:29.029292'),
 ('zfcvbdhhgd3t740954vaom2ple5tcsir', '.eJxVkMtOxDAMRf-la1TlPe2sGAQLFqxgXzmJMw00D9rMCvHvJKKLqWTJ0j3X15Z_ugluZZ5uG66Tt925o93DvabBfGFswH5CvKbepFhWr_tm6Xe69W_J4vK0ew8BM2xznZaajIQqpVCJ2hxHSpkDPthxpJIKJwXjOBA5KBBOgVROW8lPhlAppMUaigH8UqNSyFBwYYycGCHs8dr0eleonudkSlpfdmf-Xg_UHihoc6CXnJOPJWAsHz5g-wU7E1KrwveMxsPit_Jan8Hvhf-dTWa_f0E7bLI:1q92zD:8T2gafqFyDZ-9_eJOq2ySH4hOJ-QThq6psf1fW74vjc', '2023-06-27 12:18:59.474180');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hms_admin`
+--
+
+CREATE TABLE `hms_admin` (
+  `id` bigint(20) NOT NULL,
+  `adminEmail` varchar(254) NOT NULL,
+  `adminName` varchar(200) NOT NULL,
+  `password` varchar(400) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -317,16 +341,24 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 CREATE TABLE `hms_admittedpatientdetails` (
   `id` bigint(20) NOT NULL,
   `admittedOn` date NOT NULL,
-  `dischargeDate` date NOT NULL,
-  `roomCharges` int(11) NOT NULL,
-  `MedicineCost` int(11) NOT NULL,
-  `doctorFees` int(11) NOT NULL,
-  `otherCharges` int(11) NOT NULL,
-  `totalCost` int(11) NOT NULL,
+  `dischargeDate` date DEFAULT NULL,
+  `roomCharges` int(11) DEFAULT NULL,
+  `MedicineCost` int(11) DEFAULT NULL,
+  `otherCharges` int(11) DEFAULT NULL,
+  `totalCost` int(11) DEFAULT NULL,
   `appointmentDetailsId` varchar(10) NOT NULL,
   `doctorId` varchar(10) NOT NULL,
-  `patientId` varchar(10) NOT NULL
+  `patientId` varchar(10) NOT NULL,
+  `status` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hms_admittedpatientdetails`
+--
+
+INSERT INTO `hms_admittedpatientdetails` (`id`, `admittedOn`, `dischargeDate`, `roomCharges`, `MedicineCost`, `otherCharges`, `totalCost`, `appointmentDetailsId`, `doctorId`, `patientId`, `status`) VALUES
+(2, '2023-05-17', '2023-05-21', 1200, 5000, 200, 6400, '1', '2', '1', 'DISCHARGED'),
+(4, '2023-06-14', NULL, NULL, NULL, NULL, NULL, '3', '2', '1', 'ADMITTED');
 
 -- --------------------------------------------------------
 
@@ -353,9 +385,13 @@ CREATE TABLE `hms_appointment` (
 --
 
 INSERT INTO `hms_appointment` (`id`, `patientId`, `doctorId`, `appointmentDate`, `description`, `medicinePrescribed`, `appointmentCost`, `wasAdmitted`, `symptoms`, `appointmentTime`, `status`) VALUES
-(1, '1', '2', '2023-06-13', 'asdasd', 'asd', 800, 0, 'asd', '10:00', 'COMPLETED'),
-(2, '3', '2', '2023-06-14', '', '', 800, 0, '', '13:30', 'PENDING'),
-(3, '1', '2', '2023-06-14', 'dasdasd', 'sdasdass', 800, 0, 'asda', '14:00', 'COMPLETED');
+(1, '1', '2', '2023-06-13', 'f', 'f', 800, 1, 'f', '10:00', 'COMPLETED'),
+(2, '3', '2', '2023-06-14', '', '', 800, 0, '', '13:30', 'COMPLETED'),
+(3, '1', '2', '2023-06-14', 'ab', 'ab', 800, 1, 'ab', '14:00', 'COMPLETED'),
+(4, '2', '2', '2023-06-15', 'xyz', 'xyz', 800, 0, 'xyz', '15:30', 'COMPLETED'),
+(5, '2', '2', '2023-06-14', 'abc', 'abc', 800, 1, 'abc', '10:30', 'COMPLETED'),
+(6, '1', '2', '2023-06-16', 'pqr', 'pqr', 800, 0, 'pqr', '17:30', 'COMPLETED'),
+(14, '1', '1', '2023-06-17', '', '', 800, 0, '', '12:00:00', 'PENDING');
 
 -- --------------------------------------------------------
 
@@ -420,7 +456,7 @@ CREATE TABLE `hms_patient` (
 --
 
 INSERT INTO `hms_patient` (`id`, `patientName`, `patientEmail`, `phone`, `password`, `address`, `patientProfileImg`, `currentlyAssignedDoctorId`) VALUES
-(1, 'Om Patel', 'ompatel22072002@gmail.com', 7016104220, '123456', 'Jamnagar', '', ''),
+(1, 'Om Patel', 'ompatel22072002@gmail.com', 7016104220, '123456', 'Jamnagar', '', '1'),
 (2, 'Jemin Butani', 'jeminbutani@gmail.com', 7016105890, '789456', 'Rajkot', '', ''),
 (3, 'Kunj Jajal', 'kunjjajal@gmail.com', 7024287330, '159753', 'Mumbai', '', ''),
 (4, 'ab c', 'abc@gmail.com', 7079654220, 'abc1', 'Ahmedabad', '', ''),
@@ -526,6 +562,12 @@ ALTER TABLE `django_session`
   ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
 
 --
+-- Indexes for table `hms_admin`
+--
+ALTER TABLE `hms_admin`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `hms_admittedpatientdetails`
 --
 ALTER TABLE `hms_admittedpatientdetails`
@@ -583,7 +625,7 @@ ALTER TABLE `auth_group_permissions`
 -- AUTO_INCREMENT for table `auth_permission`
 --
 ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `auth_user`
@@ -613,25 +655,31 @@ ALTER TABLE `django_admin_log`
 -- AUTO_INCREMENT for table `django_content_type`
 --
 ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
+--
+-- AUTO_INCREMENT for table `hms_admin`
+--
+ALTER TABLE `hms_admin`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `hms_admittedpatientdetails`
 --
 ALTER TABLE `hms_admittedpatientdetails`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `hms_appointment`
 --
 ALTER TABLE `hms_appointment`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `hms_doctor`

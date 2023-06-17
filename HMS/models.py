@@ -78,6 +78,11 @@ class Appointment(models.Model):
     def __str__(self):
         return self.doctorId
 
+ADMITTED_PATIENT_STATUS=(
+    ('ADMITTED','ADMITTED'),
+    ('DISCHARGED','DISCHARGED')
+)
+
 class AdmittedPatientDetails(models.Model):
     appointmentDetailsId=models.CharField(max_length=10)
     patientId=models.CharField(max_length=10)
@@ -88,7 +93,7 @@ class AdmittedPatientDetails(models.Model):
     MedicineCost=models.IntegerField(null=True)
     otherCharges=models.IntegerField(null=True)
     totalCost=models.IntegerField(null=True)
-    
+    status=models.CharField(default='ADMITTED',choices=ADMITTED_PATIENT_STATUS,max_length=15)
     def __str__(self):
         return self.appointmentDetailsId
     

@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style>
+      a:hover {
+        text-decoration: none;
+      }
+      td {
+        word-wrap: break-word;
+      }
+      .go-back {
+        background-color: whitesmoke;
+        float: left;
+        padding: 10px;
+        margin: 5px;
+        margin-bottom: 10px;
+        color: black;
+        border: 2px solid black;
+        border-radius: 5px;
+      }
+      .go-back:hover {
+        text-underline-position: below;
+      }
+      .logout {
+        background-color: whitesmoke;
+        float: right;
+        padding: 10px;
+        margin: 5px;
+        text-decoration: none;
+        color: black;
+        border: 2px solid black;
+      }
+      .logout:hover {
+        text-underline-position: below;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar" style="background-color: #337ab7">
+      <nav>
+        <a href="{% url 'ViewAllAdmittedPatients' %}" class="go-back"
+          >&larr; Go Back</a
+        >
+        <a href="{% url 'Logout' %}" class="logout">Logout</a>
+      </nav>
+    </div>
+    <div class="main" style="padding: 2px; margin: 5px; position: relative">
+      <p>Patient Name: {{patientData.patientName}}</p>
+      <p>Mobile Number: {{patientData.phone}}</p>
+      <p>Address: {{patientData.address}}</p>
+      <form action="{% url 'UpdateOrDischargePatient' %}" method="post">
+        {% csrf_token %}
+        <div class="current" style="display: flex; align-items: center">
+          <p>Update Symptoms:</p>
+          <textarea
+            name="sym"
+            id="symptoms"
+            cols="30"
+            rows="4"
+            style="margin: 10px"
+          ></textarea>
+          <p>Update Medicines Prescribed:</p>
+          <textarea
+            name="med"
+            id="medicine"
+            cols="30"
+            rows="4"
+            style="margin: 10px"
+          ></textarea>
+          <p>Update Description:</p>
+          <textarea
+            name="desc"
+            id="description"
+            cols="30"
+            rows="4"
+            style="margin: 10px"
+          ></textarea>
+          <input
+            type="text"
+            name="currAppId"
+            id=""
+            hidden
+            value="{{currentData.id}}"
+          />
+        </div>
+        <div style="margin: 8px">
+          <p>
+            <button type="submit" id="updateBtn" name="submitBtn" value="UPADTE_DETAILS" onclick="updateFunction()">Update Patient Record</button>
+          </p>
+          <p>
+            <button type="submit" id="dischargeBtn" name="submitBtn" value="DISCHARGE_PATIENT" onclick="dischargeFunction()">Discharge Patient</button>
+          </p>
+        </div>
+      </form>
+      <script>
+        document.getElementById("symptoms").value = "{{currentData.symptoms}}";
+        document.getElementById("medicine").value = "{{currentData.medicinePrescribed}}";
+        document.getElementById("description").value = "{{currentData.description}}";
+        function updateFunction(){
+          alert("Patient details updated successfully")
+        }
+        function dischargeFunction(){
+          alert("Patient discharged successfully")
+        }
+      </script>
+      <br />
+      <br />
+      <div class="container">
+        <div class="row">
+          <div class="panel panel-primary" style="margin-left: 2%">
+            <div class="panel-heading" style="text-align: center">
+              <h6 class="panel-title">Patient Admit History</h6>
+            </div>
+            <table
+              class="table table-hover table-striped"
+              id="dev-table"
+              style="table-layout: fixed"
+            >
+              <thead class="thead-dark">
+                <tr>
+                  <th>Appointment Date</th>
+                  <th>Symptoms</th>
+                  <th>Medicines Prescribed</th>
+                  <th>Description</th>
+                  <th>Discharged Date</th>
+                </tr>
+              </thead>
+              {% for i in historyData %}
+              <tr>
+                <td>{{i.appointmentDate}}</td>
+                <td>{{i.symptoms}}</td>
+                <td>{{i.medicine}}</td>
+                <td>{{i.description}}</td>
+                <td>{{i.dischargeDate}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
