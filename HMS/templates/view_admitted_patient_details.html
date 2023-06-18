@@ -139,11 +139,12 @@
             >
               <thead class="thead-dark">
                 <tr>
-                  <th>Appointment Date</th>
+                  <th>Appointment Date/Admit Date</th>
                   <th>Symptoms</th>
                   <th>Medicines Prescribed</th>
                   <th>Description</th>
                   <th>Discharged Date</th>
+                  <th>Total Cost (&#8360;)</th>
                 </tr>
               </thead>
               {% for i in historyData %}
@@ -153,6 +154,7 @@
                 <td>{{i.medicine}}</td>
                 <td>{{i.description}}</td>
                 <td>{{i.dischargeDate}}</td>
+                <td>{{i.totalCost}}</td>
               </tr>
               {% endfor %}
             </table>

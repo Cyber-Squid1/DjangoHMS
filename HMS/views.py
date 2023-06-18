@@ -1,7 +1,7 @@
 from HMS.models import *
 from django.shortcuts import render,redirect
 from django.http import HttpResponseBadRequest
-from datetime import datetime
+from datetime import date
 # Create your views here.
 
 def Home(request):
@@ -154,6 +154,8 @@ def ViewAdmittedPatientDetails(request,appointmentId):
             historyDict['symptoms']=appointmentData.symptoms
             historyDict['medicine']=appointmentData.medicinePrescribed
             historyDict['description']=appointmentData.description
+            historyDict['dischargeDate']=i.dischargeDate
+            historyDict['totalCost']=i.totalCost
             admittedPatientHistory.append(historyDict)
         return render(request,'view_admitted_patient_details.html',{"currentData":appointmentDataCurrent,"patientData":patientData,"historyData":admittedPatientHistory})
 
@@ -161,14 +163,51 @@ def UpdateDischargePatient(request):
     if 'doctorEmail' in request.session:
         appointmentId=request.POST['currAppId']
         doctorChoice=request.POST['submitBtn']
+        symptoms=request.POST['sym']
+        medicine=request.POST['med']
+        description=request.POST['desc']
+        print(1)
         if doctorChoice == "UPADTE_DETAILS":
-            symptoms=request.POST['sym']
-            medicine=request.POST['med']
-            description=request.POST['desc']
             Appointment.objects.filter(id=appointmentId).update(symptoms=symptoms,medicinePrescribed=medicine,description=description)
             return redirect('ViewAllAdmittedPatients')
         elif doctorChoice == "DISCHARGE_PATIENT":
+            print("elif")
+            roomCharges1=int(1200)
+            medicineCost1=int(500)
+            otherCost1=int(300)
+            totalCost1=roomCharges1+medicineCost1+otherCost1
+            print("elif 1")
+            dischargeDate1=date.today()
+            print('elif 2')
+            Appointment.objects.filter(id=appointmentId).update(symptoms=symptoms,medicinePrescribed=medicine,description=description)
+            print('elif 3')
+            try:
+                AdmittedPatientDetails.objects.filter(appointmentDetailsId=appointmentId).update(roomCharges=roomCharges1,MedicineCost=medicineCost1,otherCharges=otherCost1,totalCost=totalCost1,dischargeDate=dischargeDate1,status="DISCHARGED")
+                print('try')
+            except:
+                print("except")
+            print('elif 4')
             return redirect('ViewAllAdmittedPatients')
+
+def PatientProfile(request):
+    if 'patientEmail' in request.session:
+        patientData=Patient.objects.get(patientEmail=request.session['patientEmail'])
+        nameList=patientData.patientName.split(' ')
+        if request.method=="POST":
+            fname=request.POST['firstname']
+            lname=request.POST['lastname']
+            phone=request.POST['phonenumber']
+            address1=request.POST['address']
+            fullName=str(fname)+" "+str(lname)
+            Patient.objects.filter(patientEmail=request.session['patientEmail']).update(patientName=fullName,phone=phone,address=address1)
+            return redirect('PatientProfile')
+        print(nameList)
+        return render(request,'patient_profile.html',{"patientData":patientData,"firstName":nameList[0],"lastName":nameList[1],"patientName":nameList[0]+nameList[1]})
+    else:
+        return redirect('PatientLogin')
+
+def PatientMedicalHistory(request):
+    return render(request,'patient_view_medical_history.html')
 
 def PatientLogin(request):
     if 'patientEmail' in request.session:

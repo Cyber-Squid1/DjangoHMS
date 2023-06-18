@@ -149,6 +149,7 @@
           padding-left: 90px;
         }
         .menu {
+          top: 0px;
           width: 90px;
         }
         .menu .avatar {
@@ -258,13 +259,13 @@
 
   <body>
     <!-- partial:index.partial.html -->
-    <nav class="menu" tabindex="0">
+    <nav class="menu" tabindex="0" style="top: 0px;">
       <div class="smartphone-menu-trigger"></div>
       <header class="avatar">
         <img src="{% static patient.profile_pic.url %}" alt="Profile Pic" />
         <br /><br />
         <h6>Patient</h6>
-        <h2>{{patientName}}</h2>
+        <h4>{{patientName}}</h4>
       </header>
       <ul>
         <li tabindex="0" class="icon-dashboard">
@@ -284,14 +285,14 @@
         <li tabindex="0" class="icon-users">
           <a
             style="color: white; text-decoration: none"
-            href="/patient-discharge"
+            href="{% url 'PatientMedicalHistory' %}"
             ><span>Discharge</span></a
           >
         </li>
         <li tabindex="0" class="icon-users">
           <a
             style="color: white; text-decoration: none"
-            href="#"
+            href="{% url 'PatientProfile' %}"
             ><span>Profile</span></a
           >
         </li>
@@ -300,7 +301,7 @@
     <main>
       <div class="bs-example">
         <nav
-          class="navbar navbar-expand-md navbar-dark fixed-top"
+          class="navbar navbar-expand-md navbar-dark"
           style="background: #337ab7"
         >
           <a href="{% url 'Home' %}" class="navbar-brand"
