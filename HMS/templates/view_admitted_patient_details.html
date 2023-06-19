@@ -69,59 +69,101 @@
       <p>Patient Name: {{patientData.patientName}}</p>
       <p>Mobile Number: {{patientData.phone}}</p>
       <p>Address: {{patientData.address}}</p>
+      <hr style="border-top: 1px solid red" />
+      <h4>Appointment Details ({{currentData.appointmentDate}})</h4>
+      <div class="current" style="display: flex; align-items: center">
+        <p>Symptoms:</p>
+        <textarea
+          name="sym"
+          id="symptoms"
+          cols="30"
+          rows="4"
+          disabled
+          style="margin: 10px"
+        ></textarea>
+        <p>Medicines Prescribed:</p>
+        <textarea
+          name="med"
+          id="medicine"
+          cols="30"
+          rows="4"
+          disabled
+          style="margin: 10px"
+        ></textarea>
+        <p>Description:</p>
+        <textarea
+          name="desc"
+          id="description"
+          cols="30"
+          rows="4"
+          disabled
+          style="margin: 10px"
+        ></textarea>
+      </div>
+      <hr style="border-top: 1px solid red" />
       <form action="{% url 'UpdateOrDischargePatient' %}" method="post">
         {% csrf_token %}
-        <div class="current" style="display: flex; align-items: center">
-          <p>Update Symptoms:</p>
+        <h4>Timely Visit Date {{todayDate}}</h4>
+        <div class="doctorVisit" style="display: flex; align-items: center">
+          <p>Patient Condtion Details:</p>
           <textarea
-            name="sym"
+            name="patientCondition"
             id="symptoms"
             cols="30"
             rows="4"
             style="margin: 10px"
           ></textarea>
-          <p>Update Medicines Prescribed:</p>
+          <p>New Prescribed Medicines:</p>
           <textarea
-            name="med"
+            name="newMedicine"
             id="medicine"
             cols="30"
             rows="4"
             style="margin: 10px"
           ></textarea>
-          <p>Update Description:</p>
-          <textarea
-            name="desc"
-            id="description"
-            cols="30"
-            rows="4"
-            style="margin: 10px"
-          ></textarea>
+          <input type="text" name="admitId" id=""  value="{{admitId}}" />
           <input
             type="text"
             name="currAppId"
             id=""
-            hidden
+            
             value="{{currentData.id}}"
           />
         </div>
-        <div style="margin: 8px">
-          <p>
-            <button type="submit" id="updateBtn" name="submitBtn" value="UPADTE_DETAILS" onclick="updateFunction()">Update Patient Record</button>
-          </p>
-          <p>
-            <button type="submit" id="dischargeBtn" name="submitBtn" value="DISCHARGE_PATIENT" onclick="dischargeFunction()">Discharge Patient</button>
-          </p>
+        <div style="display: flex; align-items: center; margin: 8px">
+          <button
+            style="padding: 10px; margin: 5px"
+            type="submit"
+            id="updateBtn"
+            name="submitBtn"
+            value="UPADTE_DETAILS"
+            onclick="updateFunction()"
+          >
+            Update Patient Record
+          </button>
+          <button
+            style="padding: 10px; margin: 5px"
+            type="submit"
+            id="dischargeBtn"
+            name="submitBtn"
+            value="DISCHARGE_PATIENT"
+            onclick="dischargeFunction()"
+          >
+            Discharge Patient
+          </button>
         </div>
       </form>
       <script>
         document.getElementById("symptoms").value = "{{currentData.symptoms}}";
-        document.getElementById("medicine").value = "{{currentData.medicinePrescribed}}";
-        document.getElementById("description").value = "{{currentData.description}}";
-        function updateFunction(){
-          alert("Patient details updated successfully")
+        document.getElementById("medicine").value =
+          "{{currentData.medicinePrescribed}}";
+        document.getElementById("description").value =
+          "{{currentData.description}}";
+        function updateFunction() {
+          alert("Patient details updated successfully");
         }
-        function dischargeFunction(){
-          alert("Patient discharged successfully")
+        function dischargeFunction() {
+          alert("Patient discharged successfully");
         }
       </script>
       <br />
@@ -139,22 +181,16 @@
             >
               <thead class="thead-dark">
                 <tr>
-                  <th>Appointment Date/Admit Date</th>
-                  <th>Symptoms</th>
-                  <th>Medicines Prescribed</th>
-                  <th>Description</th>
-                  <th>Discharged Date</th>
-                  <th>Total Cost (&#8360;)</th>
+                  <th>Doctor VIsit Date</th>
+                  <th>Patient Condition</th>
+                  <th>New Medicines Prescribed</th>
                 </tr>
               </thead>
               {% for i in historyData %}
               <tr>
-                <td>{{i.appointmentDate}}</td>
-                <td>{{i.symptoms}}</td>
-                <td>{{i.medicine}}</td>
-                <td>{{i.description}}</td>
-                <td>{{i.dischargeDate}}</td>
-                <td>{{i.totalCost}}</td>
+                <td>{{i.doctorVisitDate}}</td>
+                <td>{{i.patientCondition}}</td>
+                <td>{{i.newMedicinePrescribed}}</td>
               </tr>
               {% endfor %}
             </table>

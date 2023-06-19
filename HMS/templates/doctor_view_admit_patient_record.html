@@ -1,4 +1,12 @@
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -39,7 +47,7 @@
         border: 2px solid black;
         border-radius: 5px;
       }
-      .go-back:hover {
+      .go-back:hover{
         text-underline-position: below;
       }
       .logout {
@@ -51,59 +59,50 @@
         color: black;
         border: 2px solid black;
       }
-      .logout:hover {
+      .logout:hover{
         text-underline-position: below;
       }
     </style>
   </head>
   <body>
-    {% if newMessage %}
-    <script>
-      alert("{{newMessage}}")
-    </script>
-    {% endif %}
-    <div class="navbar" style="background-color: #337ab7">
-      <nav>
-        <a href="{% url 'DoctorDashboard' %}" class="go-back">&larr; Go Back</a>
-        <a href="{% url 'Logout' %}" class="logout">Logout</a>
-      </nav>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="panel panel-primary" style="margin-left: 2%">
-          <div class="panel-heading" style="text-align: center">
-            <h6 class="panel-title">Admitted Patients</h6>
-          </div>
-          <table
-            class="table table-hover table-striped"
-            id="dev-table"
-            style="table-layout: fixed"
-          >
-            <thead class="thead-dark">
+    <div class="main" style="padding: 2px; margin: 5px; position: relative">
+      <p>Patient Name: {{patientData.patientName}}</p>
+      <p>Mobile Number: {{patientData.phone}}</p>
+      <p>Patient Name: {{patientData.patientName}}</p>
+      <br />
+      <br />
+      <div class="container">
+        <div class="row">
+          <div class="panel panel-primary" style="margin-left: 2%">
+            <div class="panel-heading" style="text-align: center">
+              <h6 class="panel-title">Patient Condition Details</h6>
+            </div>
+            <table
+              class="table table-hover table-striped"
+              id="dev-table"
+              style="table-layout: fixed"
+            >
+              <thead class="thead-dark">
+                <tr>
+                  <th>Doctor Visit Date</th>
+                  <th>Patient Condition Details</th>
+                  <th>New Medicine Prescribed</th>
+                </tr>
+              </thead>
+              {% for i in patientConditionData %}
               <tr>
-                <th>Patient Name</th>
-                <th>Phone</th>
-                <th>Address Prescribed</th>
-                <th>Admitted On</th>
-                <th></th>
+                <td>{{i.doctorVisitDate}}</td>
+                <td>{{i.patientCondition}}</td>
+                <td>{{i.newMedicinePrescribed}}</td>
               </tr>
-            </thead>
-            {% for i in admittedPatientsData %}
-            <tr>
-              <td>{{i.patientName}}</td>
-              <td>{{i.phone}}</td>
-              <td>{{i.address}}</td>
-              <td>{{i.admittedOn}}</td>
-              {% if i.visitedToday %}
-              <td><a href="{% url 'ViewAdmittedPatientDetails' i.appointmentId %}" style="color: green;">Already Visited Today</a></td>
-              {% else %}
-              <td><a href="{% url 'ViewAdmittedPatientDetails' i.appointmentId %}">View/Edit Patient Details</a></td>
-              {% endif %}
-            </tr>
-            {% endfor %}
-          </table>
+              {% endfor %}
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </body>
+</html>
+
+</body>
 </html>

@@ -24,7 +24,7 @@
 </head>
 
 <body>
-  {% include "hospital/navbar.html" %}
+  {% include "navbar.html" %}
   <br><br>
   <center>
     <h3 class='alert alert-success' style="margin-bottom:0px;">About Us !</h3>
@@ -35,10 +35,9 @@
     <hr class="my-4">
     <p>Explore our Website.</p>
     <p class="lead">
-      <a class="btn btn-primary btn-lg" href="/" role="button">HOME</a>
+      <a class="btn btn-primary btn-lg" href="{% url 'Home '%}" role="button">HOME</a>
     </p>
   </div>
-  {% include "hospital/footer.html" %}
 </body>
 
 

@@ -100,13 +100,12 @@ class AdmittedPatientDetails(models.Model):
     billStatus=models.CharField(max_length=15,default="PENDING",choices=BILL_STATUS)
     def __str__(self):
         return self.appointmentDetailsId
-    
 
-# class AppointmentPaymenyDetails(models.Model):
-#     appointmentDetailsId=models.CharField()
-
-# class AdmitPaymentCost(models.Model):
-#     admitDetailsId=models.CharField()
+class AdmittedPatientCondition(models.Model):
+    admittedPatientDetailsId=models.CharField(max_length=100)
+    doctorVisitDate=models.DateField(auto_now=True)
+    patientCondition=models.TextField(max_length=2000)
+    newMedicinePrescribed=models.TextField(max_length=2000)
 
 class Feedback(models.Model):
     name=models.CharField(max_length=200)

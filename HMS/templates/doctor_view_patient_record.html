@@ -153,7 +153,7 @@
                 <td>{{i.medicinePrescribed}}</td>
                 <td>{{i.description}}</td>
                 {% if i.wasAdmitted == True%}
-                <td><a href="">True(View Record)</a></td>
+                <td><a href="{% url 'ViewAdmitRecord' i.pk %}">True(View Record)</a></td>
                 {% else %}
                 <td>{{i.wasAdmitted}}</td>
                 {% endif %}
