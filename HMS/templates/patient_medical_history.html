@@ -1,0 +1,68 @@
+{% extends 'patient_base.html' %} {% block content %} {%load static%}
+
+<head>
+  <link
+    href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+    rel="stylesheet"
+    id="bootstrap-css"
+  />
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+    }
+
+    .row {
+      margin: 100px;
+    }
+  </style>
+</head>
+
+<div class="container">
+  <div class="row">
+    <div class="panel panel-primary" style="margin-left: 2%">
+      <div class="panel-heading" style="text-align: center">
+        <h6 class="panel-title">Your Medical History</h6>
+      </div>
+      <table
+        class="table table-hover table-striped"
+        id="dev-table"
+        style="table-layout: fixed"
+      >
+        <thead class="thead-dark">
+          <tr>
+            <th>Doctor Name</th>
+            <th>Specialization</th>
+            <th>Appointment Date</th>
+            <th>Symptoms</th>
+            <th>Medicine Prescribed</th>
+            <th>Description</th>
+            <th>Was Admitted</th>
+          </tr>
+        </thead>
+        {% for i in appointmentData %}
+        <tr>
+          <td>{{i.doctorName}}</td>
+          <td>{{i.specialization}}</td>
+          <td>{{i.appointmentDate}}</td>
+          <td>{{i.symptoms}}</td>
+          <td>{{i.medicine}}</td>
+          <td>{{i.description}}</td>
+          {% if i.wasAdmitted %}
+          <td><a href="{% url 'MyAdmitHistory' i.pk %}">View Record</a></td>
+          {% else %}
+          <td>{{i.wasAdmitted}}</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

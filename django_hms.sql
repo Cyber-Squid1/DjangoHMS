@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 19, 2023 at 03:37 PM
+-- Generation Time: Jun 19, 2023 at 09:22 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -323,7 +323,7 @@ CREATE TABLE `django_session` (
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
 ('1z6tivjqljbtgpvrv0uihylwy2o1jlkd', '.eJxVjDsOgzAQRO_iOkL-rYFUUaSUOQNa4zU4ATsCU0W5e4xEQzXSmzfzZR_MgWJ-zBgmdmVpLoAmKXktOZe3YedVn2Z2YR1ueey2lZYuuOKKM7PYvynuhXthHFJZxbwEW-1KdbRr9UyOpvvhng5GXMeyBstbLowxZHQJr0gI6VE1rm0FCO1BS0UNh8ag9gbBeOtA1T0XoMER-_0BUbZEuw:1q8xNW:ravYNKEhPijrg0rDe2o_idEAi4f-tgENgqqR59SYDqY', '2023-06-27 06:19:42.150447'),
-('wycjdd18xibxs38lgg7s0cxmqyz53gbg', 'eyJBcHBvaW50bWVudFRpbWUiOiIxMDozMDowMCIsImRvY3RvckVtYWlsIjoiYWJjQGdtYWlsLmNvbSJ9:1qBEx7:cMPe_lUzv5RQyHfcDNS3Yp2mc0eIR70nvP1jf7044xo', '2023-07-03 13:29:53.998053'),
+('wycjdd18xibxs38lgg7s0cxmqyz53gbg', '.eJyrVnIsKMjPzCvJTc0rCcnMTVWyUjI0sDI2sDIwUNJRSslPLskvcs1NzMwBSiQmJTukg9h6yfm5QNmCxJJMoDaYdH4uUCA1x8jIwNzIwMAISWktANupIbI:1qBJ1m:AljthtAIVqqa0OITGKfx18PGFvmuwDHesJDoZjubeLM', '2023-07-03 17:50:58.192569'),
 ('zfcvbdhhgd3t740954vaom2ple5tcsir', '.eJxVkMtOxDAMRf-la1TlPe2sGAQLFqxgXzmJMw00D9rMCvHvJKKLqWTJ0j3X15Z_ugluZZ5uG66Tt925o93DvabBfGFswH5CvKbepFhWr_tm6Xe69W_J4vK0ew8BM2xznZaajIQqpVCJ2hxHSpkDPthxpJIKJwXjOBA5KBBOgVROW8lPhlAppMUaigH8UqNSyFBwYYycGCHs8dr0eleonudkSlpfdmf-Xg_UHihoc6CXnJOPJWAsHz5g-wU7E1KrwveMxsPit_Jan8Hvhf-dTWa_f0E7bLI:1q92zD:8T2gafqFyDZ-9_eJOq2ySH4hOJ-QThq6psf1fW74vjc', '2023-06-27 12:18:59.474180');
 
 -- --------------------------------------------------------
@@ -361,8 +361,13 @@ INSERT INTO `hms_admittedpatientcondition` (`id`, `admittedPatientDetailsId`, `d
 (1, '5', '2023-06-15', 'nsndjfbsjsbdfjkbjkbjkdfjkbjsdbjfs s sfsdf65s1df515 sd56f156sf seef s5df156s f', 'asdasdasd'),
 (2, '5', '2023-06-16', 'asdasdasd', 'erdfghjhgfdfghnhgfdfg'),
 (3, '5', '2023-06-17', 'ertgfderftgyht65r4edfghy6t5redf', 'we4r5tyuiou7y654'),
-(4, '2', '2023-06-11', 'now', 'now'),
-(6, '6', '2023-06-19', '123456', '123456');
+(6, '6', '2023-06-19', '123456', '123456'),
+(7, '2', '2023-05-17', 'good1', 'med1'),
+(8, '2', '2023-05-18', 'good2', 'med2'),
+(9, '2', '2023-05-19', 'good3', 'med3'),
+(10, '2', '2023-05-20', 'good4', 'med4'),
+(11, '2', '2023-05-21', 'ready to be discharged', 'no medicines'),
+(12, '6', '2023-06-20', 'good can be discharged', 'no medicine');
 
 -- --------------------------------------------------------
 
@@ -391,9 +396,9 @@ CREATE TABLE `hms_admittedpatientdetails` (
 
 INSERT INTO `hms_admittedpatientdetails` (`id`, `admittedOn`, `dischargeDate`, `roomCharges`, `MedicineCost`, `otherCharges`, `totalCost`, `appointmentDetailsId`, `doctorId`, `patientId`, `status`, `billStatus`) VALUES
 (2, '2023-05-17', '2023-05-21', 1200, 5000, 200, 6400, '1', '2', '1', 'DISCHARGED', 'PAID'),
-(4, '2023-06-14', '2023-06-18', 1200, 500, 300, 2000, '3', '2', '1', 'DISCHARGED', 'PENDING'),
+(4, '2023-06-14', '2023-06-16', 1200, 500, 300, 2000, '3', '2', '1', 'DISCHARGED', 'PENDING'),
 (5, '2023-06-14', '2023-06-17', 1200, 500, 300, 2000, '5', '2', '2', 'DISCHARGED', 'PAID'),
-(6, '2023-06-19', NULL, NULL, NULL, NULL, NULL, '15', '2', '2', 'ADMITTED', 'PENDING'),
+(6, '2023-06-19', '2023-06-20', 1200, 500, 300, 2000, '15', '2', '2', 'DISCHARGED', 'PENDING'),
 (7, '2023-06-19', NULL, NULL, NULL, NULL, NULL, '17', '2', '3', 'ADMITTED', 'PENDING');
 
 -- --------------------------------------------------------
@@ -421,7 +426,7 @@ CREATE TABLE `hms_appointment` (
 --
 
 INSERT INTO `hms_appointment` (`id`, `patientId`, `doctorId`, `appointmentDate`, `description`, `medicinePrescribed`, `appointmentCost`, `wasAdmitted`, `symptoms`, `appointmentTime`, `status`) VALUES
-(1, '1', '2', '2023-06-13', 'f', 'f', 800, 1, 'f', '10:00', 'COMPLETED'),
+(1, '1', '2', '2023-06-13', 'a', 'f', 800, 1, 'f', '10:00', 'COMPLETED'),
 (2, '3', '2', '2023-06-14', '123', '321', 800, 0, '456', '13:30', 'COMPLETED'),
 (3, '1', '2', '2023-06-14', 'abcx', 'abcx', 800, 1, 'abcx', '14:00', 'COMPLETED'),
 (4, '2', '2', '2023-06-15', 'xyz', 'xyz', 800, 0, 'xyz', '15:30', 'COMPLETED'),
@@ -430,7 +435,7 @@ INSERT INTO `hms_appointment` (`id`, `patientId`, `doctorId`, `appointmentDate`,
 (14, '1', '1', '2023-06-17', '', '', 800, 0, '', '12:00:00', 'PENDING'),
 (15, '2', '2', '2023-06-19', '123', '123', 800, 1, '123', '17:00:00', 'COMPLETED'),
 (17, '3', '2', '2023-06-19', '321', '321', 800, 1, '321', '16:30:00', 'COMPLETED'),
-(20, '4', '2', '2023-06-19', '', '', 800, 0, '', '10:30:00', 'PENDING');
+(20, '4', '2', '2023-06-19', 'no', 'no', 800, 0, 'no', '10:30:00', 'COMPLETED');
 
 -- --------------------------------------------------------
 
@@ -498,7 +503,7 @@ INSERT INTO `hms_patient` (`id`, `patientName`, `patientEmail`, `phone`, `passwo
 (1, 'Om Patel', 'ompatel22072002@gmail.com', 7016104220, '123456', 'Jamnagar', '', '1'),
 (2, 'Jemin Butani', 'jeminbutani@gmail.com', 7016105890, '789456', 'Rajkot', '', '2'),
 (3, 'Kunj Jajal', 'kunjjajal@gmail.com', 7024287330, '159753', 'Mumbai', '', '2'),
-(4, 'ab c', 'abc@gmail.com', 7079654220, 'abc1', 'Ahmedabad', '', '2'),
+(4, 'ab c', 'abc@gmail.com', 7079654220, 'abc1', 'Ahmedabad', '', ''),
 (5, 'pq r', 'pqr@gmail.com', 9998743208, 'pqr123', 'Gandhinagar', '', ''),
 (6, 'xy z', 'xyz@gmail.com', 9664781034, 'xyzabc', 'Surat', '', '');
 
@@ -718,7 +723,7 @@ ALTER TABLE `hms_admin`
 -- AUTO_INCREMENT for table `hms_admittedpatientcondition`
 --
 ALTER TABLE `hms_admittedpatientcondition`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `hms_admittedpatientdetails`

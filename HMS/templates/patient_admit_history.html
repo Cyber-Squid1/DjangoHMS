@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style>
+      a:hover {
+        text-decoration: none;
+      }
+      td {
+        word-wrap: break-word;
+      }
+      .go-back {
+        background-color: whitesmoke;
+        float: left;
+        padding: 10px;
+        margin: 5px;
+        margin-bottom: 10px;
+        color: black;
+        border: 2px solid black;
+        border-radius: 5px;
+      }
+      .go-back:hover{
+        text-underline-position: below;
+      }
+      .logout {
+        background-color: whitesmoke;
+        float: right;
+        padding: 10px;
+        margin: 5px;
+        text-decoration: none;
+        color: black;
+        border: 2px solid black;
+      }
+      .logout:hover{
+        text-underline-position: below;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar" style="background-color: #337ab7">
+      <nav>
+        <a href="{% url 'MyMedicalHistory' %}" class="go-back">&larr; Go Back</a>
+        <a href="{% url 'Logout' %}" class="logout">Logout</a>
+      </nav>
+    </div>
+    <div class="main" style="padding: 2px; margin: 5px; position: relative">
+      <p>Admitted On: {{admittedData.admittedOn}}</p>
+      <p>Discharged On: {{admittedData.dischargeDate}}</p>
+      <p>Symptoms: {{appointmentData.symptoms}}</p>
+      <p>Medicine Prescribed: {{appointmentData.medicinePrescribed}}</p>
+      <p>Description: {{appointmentData.description}}</p>
+      <br />
+      <br />
+      <div class="container">
+        <div class="row">
+          <div class="panel panel-primary" style="margin-left: 2%">
+            <div class="panel-heading" style="text-align: center">
+              <h6 class="panel-title">Doctor Frequent Visit Record</h6>
+            </div>
+            <table
+              class="table table-hover table-striped"
+              id="dev-table"
+              style="table-layout: fixed"
+            >
+              <thead class="thead-dark">
+                <tr>
+                  <th>Doctor Visit Date</th>
+                  <th>Patient Condition</th>
+                  <th>New Medicine Prescribed</th>
+                </tr>
+              </thead>
+              {% for i in admitData %}
+              <tr>
+                <td>{{i.doctorVisitDate}}</td>
+                <td>{{i.patientCondition}}</td>
+                <td>{{i.newMedicinePrescribed}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

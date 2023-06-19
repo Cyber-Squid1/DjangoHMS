@@ -30,5 +30,8 @@ urlpatterns = [
     path('bookAppointment/<str:appointmentTime>',SelectTime,name='SelectTime'),
     path('confirmAppointment/',ConfirmAppointment,name='ConfirmAppointment'),
     path('viewAppointment/',PatientViewAppointment,name='PatientViewAppointment'),
+    path('myMedicalHistory/',MyMedicalHistory,name='MyMedicalHistory'),
+    path('myAdmitHistory/<int:appointmentId>',MyAdmitHistory,name='MyAdmitHistory'),
+    path('viewAppointment/',PatientViewAppointment,name='PatientViewAppointment'),
     path('contactUs/',ContactUs,name='ContactUs'),
 ]
